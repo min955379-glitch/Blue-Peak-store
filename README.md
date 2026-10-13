@@ -74,11 +74,25 @@ still appear in a file name — the public brand name everywhere is Blue Peak.
   owner's instruction (13 Oct 2026). Ordering never requires an account:
   customers order with name and phone, confirmed on WhatsApp. Supabase Auth
   now exists only for the owner's admin-portal sign-in.
+- **Photo galleries (up to 3 photos per product)** — product cards carry
+  prev/next arrows and dots to flip through a product's photos. Six of the
+  twelve launch products have a second (and for Olive Linen, a third)
+  same-outfit photo from the same photographer's public shoots, visually
+  verified photo-by-photo against the main photo; the rest keep their
+  single photo until real product photos are added (extra photos can be
+  added per product at any time in the admin portal).
+- **Product detail view** — tapping a product's photo or name opens a full
+  detail sheet: large gallery photo with thumbnails, category, prices and
+  saving, fabric note, a written description (all 12 products have one),
+  size selector, quantity stepper, Add to Bag and the Cash-on-Delivery note.
 - **Admin portal** — `admin.html`, owner-only (see "Accounts and the admin
-  portal" below): edit/add/delete products, change prices and stock, toggle
-  products on/off, review orders and update their status, and edit store
-  settings (WhatsApp number, announcement text, store name, tagline, support
-  name).
+  portal" below): edit/add/delete products (including Photo 2 and Photo 3
+  URLs and a Description field on both the add form and the product editor),
+  change prices and stock, toggle products on/off, review orders and update
+  their status, and edit store settings (WhatsApp number, announcement text,
+  store name, tagline, support name). The portal layout is mobile-friendly:
+  on phone screens the product rows stack into a single column with a
+  full-width photo, full-width tabs and 16px inputs.
 
 ## Product catalogue (launch range)
 
@@ -133,7 +147,8 @@ The storefront is deliberately simple:
 ├── README.md             # This file
 └── supabase/
     ├── schema.sql        # v1: products + orders, RLS policies, seed data
-    └── schema-v2.sql     # v2: profiles, site_admins allowlist, settings, admin RLS
+    ├── schema-v2.sql     # v2: profiles, site_admins allowlist, settings, admin RLS
+    └── schema-v3.sql     # v3: products.images (jsonb) + products.description
 ```
 
 ## Run it locally
@@ -169,7 +184,7 @@ repo or in a web page).
      prices in PKR, sizes array, stock, image URL, active flag),
      seeded with the same 12 products and prices as the table above.
    - `orders` — customer name, phone, city, address, note, total, status
-     (`new → confirmed → shipped → delivered / cancelled`).
+     (`new → confirmed → dispatched → delivered / cancelled`).
    - `order_items` — line items per order (product, size, qty, unit price).
 2. `supabase/schema-v2.sql` (run after v1) adds:
    - `profiles` — one row per account (name, phone), readable/editable only by
@@ -181,6 +196,12 @@ repo or in a web page).
    - `public.is_admin()` — a security-definer function used by the RLS
      policies: products/settings become fully editable and orders readable
      only when the signed-in user's email is in `site_admins`.
+3. `supabase/schema-v3.sql` (run after v2) adds:
+   - `products.images` — jsonb array of extra photo URLs for the product
+     gallery (the main photo stays in `image_url`; the storefront shows
+     main photo first, then these).
+   - `products.description` — the written product description shown in the
+     product detail view. All 12 launch products were seeded with one.
 
 **Row Level Security summary**
 

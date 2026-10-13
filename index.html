@@ -489,6 +489,51 @@
     html{scroll-behavior:auto;}
     .drawer,.scrim,.toast,.btn{transition:none;}
   }
+  /* ---------- Card gallery ---------- */
+  .card h3{cursor:pointer;}
+  .card .photo img{cursor:pointer;}
+  .g-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+    width:30px;height:30px;border-radius:50%;border:1px solid var(--line-strong);
+    background:rgba(10,10,11,.55);color:#fff;font-size:17px;line-height:1;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;
+  }
+  .g-arrow.prev{left:8px;} .g-arrow.next{right:8px;}
+  .g-dots{position:absolute;right:10px;bottom:10px;z-index:3;display:flex;gap:5px;}
+  .g-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);display:block;}
+  .g-dots i.on{background:#fff;}
+
+  /* ---------- Product detail ---------- */
+  .pmodal{position:fixed;inset:0;z-index:105;display:none;align-items:flex-end;justify-content:center;}
+  .pmodal.open{display:flex;}
+  .pmodal .scrim2{position:absolute;inset:0;background:rgba(5,5,8,.62);}
+  .psheet{
+    position:relative;background:var(--bg);width:min(880px,100vw);max-height:94dvh;overflow-y:auto;
+    border-radius:22px 22px 0 0;box-shadow:var(--shadow-lg);padding:20px;
+  }
+  @media (min-width:760px){
+    .pmodal{align-items:center;} .psheet{border-radius:22px;}
+    .p-cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;}
+  }
+  .psheet .close-x{
+    position:absolute;top:14px;right:14px;z-index:5;width:38px;height:38px;border-radius:50%;
+    border:0;background:var(--surface-2);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .psheet .close-x svg{width:19px;height:19px;}
+  .p-main{position:relative;border-radius:16px;overflow:hidden;background:var(--surface-2);aspect-ratio:3/4;}
+  .p-main img{width:100%;height:100%;object-fit:cover;object-position:top center;}
+  .p-thumbs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .p-thumbs button{width:58px;height:72px;border-radius:10px;overflow:hidden;border:2px solid transparent;padding:0;background:var(--surface-2);cursor:pointer;}
+  .p-thumbs button.on{border-color:var(--accent);}
+  .p-thumbs img{width:100%;height:100%;object-fit:cover;object-position:top center;}
+  .p-cat{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);}
+  .psheet h3{font-size:26px;margin:6px 0 4px;}
+  .p-desc{color:var(--ink-soft);font-size:15px;line-height:1.6;margin:10px 0 4px;}
+  .p-meta{font-size:13.5px;color:var(--ink-faint);margin:10px 0 0;}
+  .p-buy{display:flex;gap:10px;margin-top:16px;}
+  .p-buy .add-btn{flex:1;}
+  @media (max-width:759px){ .p-info{margin-top:16px;} }
+
   /* ---------- Professional polish ---------- */
   #cartBtn svg{width:27px;height:27px;}
   .cart-count{min-width:21px;height:21px;line-height:21px;font-size:12px;top:0;right:-3px;}
@@ -681,6 +726,38 @@
   </div>
 </aside>
 
+<!-- Product detail -->
+<div class="pmodal" id="productModal" role="dialog" aria-modal="true" aria-label="Product details">
+  <div class="scrim2" id="pScrim"></div>
+  <div class="psheet">
+    <button class="close-x" id="pClose" aria-label="Close product details">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+    <div class="p-cols">
+      <div class="p-gallery">
+        <div class="p-main"><img id="pImg" alt="" /></div>
+        <div class="p-thumbs" id="pThumbs"></div>
+      </div>
+      <div class="p-info">
+        <span class="p-cat" id="pCat"></span>
+        <h3 id="pName"></h3>
+        <div class="price-row"><span class="price" id="pPrice"></span><span class="was" id="pWas"></span><span class="save-tag" id="pSave"></span></div>
+        <p class="fabric" id="pFabric"></p>
+        <p class="p-desc" id="pDesc"></p>
+        <div class="size-label">Select size</div>
+        <div class="sizes" id="pSizes"></div>
+        <p class="size-hint" id="pHint"></p>
+        <div class="p-buy">
+          <div class="qty"><button type="button" id="pMinus" aria-label="Decrease quantity">&minus;</button><span id="pQty">1</span><button type="button" id="pPlus" aria-label="Increase quantity">+</button></div>
+          <button class="add-btn" id="pAdd" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h15l-1.5 9h-12z"/><path d="M6 7L5 3H2"/><circle cx="9" cy="20" r="1.6"/><circle cx="17" cy="20" r="1.6"/></svg>Add to Bag</button>
+        </div>
+        <div class="cod-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg>Cash on Delivery available &mdash; pay when your order arrives.</div>
+        <p class="p-meta">Sizes XS&ndash;XXL &middot; Stitched &amp; ready to wear &middot; Delivery across Pakistan</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Checkout modal -->
 <div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Checkout">
   <div class="scrim2" id="modalScrim"></div>
@@ -748,18 +825,18 @@
 var WA_NUMBER = "923485581969";
 var SIZES = ["XS","S","M","L","XL","XXL"];
 var PRODUCTS = [
-  {id:1,  name:"Rose Pink Embroidered Co-ord Set",            cat:"Co-ord Sets",  price:3495,  was:6990,  fabric:"Textured cotton, embroidered neckline",        img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno.jpg?v=1791910682", alt:"Model in a light printed kurta with trousers and an orange dupatta"},
-  {id:2,  name:"Sage Green Dobby Printed Co-ord Set",        cat:"Co-ord Sets",  price:2995,  was:5990,  fabric:"Dobby lawn, digital print",                    img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_798a7c35-fdc9-4f0a-bea3-b65448acd1f5.jpg?v=1791910688", alt:"Model wearing a sage green printed co-ord set"},
-  {id:3,  name:"Midnight Blue Jacquard Co-ord Set",          cat:"Co-ord Sets",  price:4495,  was:8990,  fabric:"Jacquard, dyed",                               img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-model-in-blue-embroidered-shalwar-kameez-dress-with-scarf.jpg?v=1791910694", alt:"Model in a midnight blue embroidered shalwar kameez with scarf"},
-  {id:4,  name:"Mustard Cotton Textured Co-ord Set",         cat:"Co-ord Sets",  price:2845,  was:5690,  fabric:"Cotton textured",                              img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno.jpg?v=1791910700", alt:"Model wearing a mustard textured cotton co-ord set"},
-  {id:5,  name:"Ivory Embroidered Co-ord Set",               cat:"Co-ord Sets",  price:3495,  was:6990,  fabric:"Embroidered textured fabric",                  img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno_9b5471bd-89b6-4b4d-aaf3-096ecfabd9d6.jpg?v=1791910706", alt:"Model wearing an ivory embroidered co-ord set"},
-  {id:6,  name:"Charcoal Denim Dyed Co-ord Set",             cat:"Co-ord Sets",  price:4995,  was:9990,  fabric:"Denim dyed",                                   img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno_775b44e5-2c3a-4489-908f-3037ebe638e3.jpg?v=1791910712", alt:"Model wearing a charcoal denim-dyed co-ord set"},
-  {id:7,  name:"Emerald Khaddar Printed 3PC Stitched",       cat:"3PC Stitched", price:4495,  was:8990,  fabric:"Khaddar print, with dupatta",                  img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/pexels-photo-27284033.jpg?v=1791910718", alt:"Model in an embroidered kurta seated with a printed dupatta"},
-  {id:8,  name:"Blush Paper Cotton Embroidered 3PC Stitched",cat:"3PC Stitched", price:9995,  was:19990, fabric:"Paper cotton, embroidered, with dupatta",      img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_af1e2698-1679-4775-a790-749aacc66a1f.jpg?v=1791910724", alt:"Model wearing a blush paper cotton embroidered three-piece suit"},
-  {id:9,  name:"Teal Linen Digital Printed 3PC Stitched",   cat:"3PC Stitched", price:4745,  was:9490,  fabric:"Linen digital print, with dupatta",            img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_3106e940-ca4d-45cb-862c-a2dcb274547f.jpg?v=1791910730", alt:"Model wearing a teal linen digital printed three-piece suit"},
-  {id:10, name:"Plum Raw Silk Embroidered 3PC Stitched",     cat:"3PC Stitched", price:10495, was:20990, fabric:"Raw silk, embroidered, with dupatta",          img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_fd64f84c-8362-4d45-8b91-66202354fa5c.jpg?v=1791910735", alt:"Model wearing a plum raw silk embroidered three-piece suit"},
-  {id:11, name:"Olive Linen Printed 2PC Stitched",           cat:"2PC Stitched", price:3995,  was:7990,  fabric:"Linen print",                                  img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno_2d50b8a2-0430-4beb-88af-02f198a27d09.jpg?v=1791910742", alt:"Model wearing an olive linen printed two-piece suit"},
-  {id:12, name:"Sand Khaddar Embroidered 2PC Stitched",      cat:"2PC Stitched", price:4295,  was:8590,  fabric:"Khaddar, embroidered",                         img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-elegant-pakistani-fashion-shoot-in-lahore.jpg?v=1791910749", alt:"Model wearing a sand khaddar embroidered two-piece suit"}
+  {id:1,  name:"Rose Pink Embroidered Co-ord Set",            cat:"Co-ord Sets",  price:3495,  was:6990,  fabric:"Textured cotton, embroidered neckline",        img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno.jpg?v=1791910682", alt:"Model in a light printed kurta with trousers and an orange dupatta", images:["https://images.pexels.com/photos/20420565/pexels-photo-20420565.jpeg?auto=compress&cs=tinysrgb&w=900"], desc:"Textured cotton co-ord set with delicate embroidery along the neckline, paired with a flowing printed dupatta. Soft, breathable and stitched ready to wear — an easy choice for day gatherings and festive evenings."},
+  {id:2,  name:"Sage Green Dobby Printed Co-ord Set",        cat:"Co-ord Sets",  price:2995,  was:5990,  fabric:"Dobby lawn, digital print",                    img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_798a7c35-fdc9-4f0a-bea3-b65448acd1f5.jpg?v=1791910688", alt:"Model wearing a sage green printed co-ord set", desc:"Dobby lawn co-ord set in a fresh sage print with a light digital pattern all over. Feather-soft lawn that stays cool through the day, finished with a matching dupatta."},
+  {id:3,  name:"Midnight Blue Jacquard Co-ord Set",          cat:"Co-ord Sets",  price:4495,  was:8990,  fabric:"Jacquard, dyed",                               img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-model-in-blue-embroidered-shalwar-kameez-dress-with-scarf.jpg?v=1791910694", alt:"Model in a midnight blue embroidered shalwar kameez with scarf", desc:"Rich midnight-blue jacquard with a woven texture that catches the light. A graceful dyed set with a scarf-style dupatta, made for dinners and evening wear."},
+  {id:4,  name:"Mustard Cotton Textured Co-ord Set",         cat:"Co-ord Sets",  price:2845,  was:5690,  fabric:"Cotton textured",                              img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno.jpg?v=1791910700", alt:"Model wearing a mustard textured cotton co-ord set", images:["https://images.pexels.com/photos/28390508/pexels-photo-28390508.jpeg?auto=compress&cs=tinysrgb&w=900"], desc:"Warm mustard cotton with a fine textured weave. Comfortable everyday stitching with a neat finish — pairs beautifully with khussay or heels."},
+  {id:5,  name:"Ivory Embroidered Co-ord Set",               cat:"Co-ord Sets",  price:3495,  was:6990,  fabric:"Embroidered textured fabric",                  img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno_9b5471bd-89b6-4b4d-aaf3-096ecfabd9d6.jpg?v=1791910706", alt:"Model wearing an ivory embroidered co-ord set", images:["https://images.pexels.com/photos/27284028/pexels-photo-27284028.jpeg?auto=compress&cs=tinysrgb&w=900"], desc:"Ivory embroidered co-ord set on a textured base, light and elegant. The soft neutral tone works for daytime events and understated festive looks."},
+  {id:6,  name:"Charcoal Denim Dyed Co-ord Set",             cat:"Co-ord Sets",  price:4995,  was:9990,  fabric:"Denim dyed",                                   img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno_775b44e5-2c3a-4489-908f-3037ebe638e3.jpg?v=1791910712", alt:"Model wearing a charcoal denim-dyed co-ord set", images:["https://images.pexels.com/photos/27284115/pexels-photo-27284115.jpeg?auto=compress&cs=tinysrgb&w=900"], desc:"Charcoal denim-dyed co-ord set with a modern, structured feel. A deeper tone that dresses up or down, stitched for a clean straight fit."},
+  {id:7,  name:"Emerald Khaddar Printed 3PC Stitched",       cat:"3PC Stitched", price:4495,  was:8990,  fabric:"Khaddar print, with dupatta",                  img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/pexels-photo-27284033.jpg?v=1791910718", alt:"Model in an embroidered kurta seated with a printed dupatta", desc:"Emerald khaddar three-piece with a printed dupatta. Khaddar's soft warmth makes it a winter favourite, stitched and ready to wear."},
+  {id:8,  name:"Blush Paper Cotton Embroidered 3PC Stitched",cat:"3PC Stitched", price:9995,  was:19990, fabric:"Paper cotton, embroidered, with dupatta",      img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_af1e2698-1679-4775-a790-749aacc66a1f.jpg?v=1791910724", alt:"Model wearing a blush paper cotton embroidered three-piece suit", images:["https://images.pexels.com/photos/19707151/pexels-photo-19707151.jpeg?auto=compress&cs=tinysrgb&w=900"], desc:"Blush paper-cotton three-piece with fine embroidery and a matching dupatta. Light, crisp and graceful — a premium pick for special occasions."},
+  {id:9,  name:"Teal Linen Digital Printed 3PC Stitched",   cat:"3PC Stitched", price:4745,  was:9490,  fabric:"Linen digital print, with dupatta",            img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_3106e940-ca4d-45cb-862c-a2dcb274547f.jpg?v=1791910730", alt:"Model wearing a teal linen digital printed three-piece suit", desc:"Teal linen three-piece with a digital print and matching dupatta. Breathable linen with a rich colour that photographs beautifully."},
+  {id:10, name:"Plum Raw Silk Embroidered 3PC Stitched",     cat:"3PC Stitched", price:10495, was:20990, fabric:"Raw silk, embroidered, with dupatta",          img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_fd64f84c-8362-4d45-8b91-66202354fa5c.jpg?v=1791910735", alt:"Model wearing a plum raw silk embroidered three-piece suit", desc:"Plum raw silk three-piece with embroidered detailing and a matching dupatta. A luxurious fabric with a soft sheen, made for weddings and formal evenings."},
+  {id:11, name:"Olive Linen Printed 2PC Stitched",           cat:"2PC Stitched", price:3995,  was:7990,  fabric:"Linen print",                                  img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno_2d50b8a2-0430-4beb-88af-02f198a27d09.jpg?v=1791910742", alt:"Model wearing an olive linen printed two-piece suit", images:["https://images.pexels.com/photos/27284099/pexels-photo-27284099.jpeg?auto=compress&cs=tinysrgb&w=900","https://images.pexels.com/photos/27284115/pexels-photo-27284115.jpeg?auto=compress&cs=tinysrgb&w=900"], desc:"Olive linen two-piece with an all-over print. Easy, breathable and ready to wear — a relaxed set for everyday elegance."},
+  {id:12, name:"Sand Khaddar Embroidered 2PC Stitched",      cat:"2PC Stitched", price:4295,  was:8590,  fabric:"Khaddar, embroidered",                         img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-elegant-pakistani-fashion-shoot-in-lahore.jpg?v=1791910749", alt:"Model wearing a sand khaddar embroidered two-piece suit", desc:"Sand-toned khaddar two-piece with delicate embroidery. A warm neutral staple for the cooler season, stitched for all-day comfort."}
 ];
 var FILTERS = [
   {key:"all",   label:"Shop",          title:"Shop Women's Stitched", sub:"The full Blue Peak stitched collection — pick your size on each piece and add it to your bag."},
@@ -867,8 +944,15 @@ function renderGrid(){
     var sizesHtml = SIZES.map(function(s){
       return '<button type="button" class="size-btn' + (pick.size===s ? " sel" : "") + '" data-size="' + s + '">' + s + "</button>";
     }).join("");
+    var cardImgs0 = productImages(p);
+    var galHtml = "";
+    if (cardImgs0.length > 1){
+      galHtml = '<button type="button" class="g-arrow prev" aria-label="Previous photo">&lsaquo;</button>' +
+        '<button type="button" class="g-arrow next" aria-label="Next photo">&rsaquo;</button>' +
+        '<span class="g-dots">' + cardImgs0.map(function(_, j){ return '<i class="' + (j === 0 ? "on" : "") + '"></i>'; }).join("") + "</span>";
+    }
     card.innerHTML =
-      '<div class="photo"><img src="' + p.img + '" alt="' + p.alt + '" />' +
+      '<div class="photo"><img src="' + p.img + '" alt="' + p.alt + '" />' + galHtml +
       '<span class="badge-off">-50%</span><span class="badge-cat">' + p.cat + '</span></div>' +
       '<div class="card-body">' +
         "<h3>" + p.name + "</h3>" +
@@ -905,8 +989,71 @@ function renderGrid(){
       }
       addToCart(p.id, pick.size, pick.qty);
     });
+    /* gallery arrows + open detail */
+    var cardImgs = productImages(p), cardIdx = 0;
+    var photoImg = card.querySelector(".photo img");
+    function cardShow(j){
+      cardIdx = (j + cardImgs.length) % cardImgs.length;
+      photoImg.src = cardImgs[cardIdx];
+      card.querySelectorAll(".g-dots i").forEach(function(d, k){ d.classList.toggle("on", k === cardIdx); });
+    }
+    var pvB = card.querySelector(".g-arrow.prev"), nxB = card.querySelector(".g-arrow.next");
+    if (pvB) pvB.addEventListener("click", function(e){ e.stopPropagation(); cardShow(cardIdx - 1); });
+    if (nxB) nxB.addEventListener("click", function(e){ e.stopPropagation(); cardShow(cardIdx + 1); });
+    photoImg.addEventListener("click", function(){ openProduct(p.id); });
+    card.querySelector("h3").addEventListener("click", function(){ openProduct(p.id); });
     grid.appendChild(card);
   });
+}
+
+/* ---------- Product detail ---------- */
+function productImages(p){ return (p.images && p.images.length) ? p.images : (p.img ? [p.img] : []); }
+var pView = { id: null, size: null, qty: 1, idx: 0 };
+function setPImage(i){
+  var p = productById(pView.id); if (!p) return;
+  var imgs = productImages(p);
+  pView.idx = (i + imgs.length) % imgs.length;
+  byId("pImg").src = imgs[pView.idx];
+  byId("pImg").alt = p.alt || p.name;
+  byId("pThumbs").querySelectorAll("button").forEach(function(b, j){ b.classList.toggle("on", j === pView.idx); });
+}
+function openProduct(id){
+  var p = productById(id); if (!p) return;
+  pView = { id: id, size: null, qty: 1, idx: 0 };
+  var imgs = productImages(p);
+  byId("pCat").textContent = p.cat;
+  byId("pName").textContent = p.name;
+  byId("pPrice").textContent = fmt(p.price);
+  byId("pWas").textContent = p.was > p.price ? fmt(p.was) : "";
+  byId("pSave").textContent = p.was > p.price ? "Save " + fmt(p.was - p.price) : "";
+  byId("pFabric").textContent = p.fabric || "";
+  byId("pDesc").textContent = p.desc || (p.name + " \u2014 " + (p.fabric || "stitched and ready to wear") + ". Made to be worn the day it arrives, with Cash on Delivery across Pakistan.");
+  byId("pQty").textContent = "1";
+  byId("pHint").textContent = "";
+  var th = byId("pThumbs"); th.innerHTML = "";
+  imgs.forEach(function(u, j){
+    var b = document.createElement("button"); b.type = "button";
+    b.innerHTML = '<img src="' + u + '" alt="" />';
+    b.addEventListener("click", function(){ setPImage(j); });
+    th.appendChild(b);
+  });
+  th.style.display = imgs.length > 1 ? "flex" : "none";
+  var sz = byId("pSizes"); sz.innerHTML = "";
+  SIZES.forEach(function(sv){
+    var b = document.createElement("button"); b.type = "button"; b.className = "size-btn"; b.textContent = sv;
+    b.addEventListener("click", function(){
+      pView.size = sv; byId("pHint").textContent = "";
+      sz.querySelectorAll(".size-btn").forEach(function(x){ x.classList.toggle("sel", x === b); });
+    });
+    sz.appendChild(b);
+  });
+  setPImage(0);
+  byId("productModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeProduct(){
+  byId("productModal").classList.remove("open");
+  document.body.style.overflow = "";
 }
 
 /* ---------- Cart ---------- */
@@ -1120,7 +1267,9 @@ function loadLiveCatalogue(){
     PRODUCTS = res.data.map(function(r, i){
       return { id: i + 1, dbid: r.id, name: r.name, cat: r.category, price: r.price_pkr,
         was: r.was_price_pkr || r.price_pkr, fabric: r.fabric_note || "",
-        img: r.image_url || "", alt: r.name };
+        img: r.image_url || "", alt: r.name,
+        images: (r.images && r.images.length) ? r.images : (r.image_url ? [r.image_url] : []),
+        desc: r.description || "" };
     });
     state.picks = {};
     PRODUCTS.forEach(function(p){ state.picks[p.id] = { size: null, qty: 1 }; });
@@ -1156,6 +1305,14 @@ document.addEventListener("DOMContentLoaded", function(){
   byId("topSearch").addEventListener("input", function(){ syncSearch(this.value); });
 
   byId("cartBtn").addEventListener("click", openDrawer);
+  byId("pClose").addEventListener("click", closeProduct);
+  byId("pScrim").addEventListener("click", closeProduct);
+  byId("pMinus").addEventListener("click", function(){ pView.qty = Math.max(1, pView.qty - 1); byId("pQty").textContent = pView.qty; });
+  byId("pPlus").addEventListener("click", function(){ pView.qty = Math.min(10, pView.qty + 1); byId("pQty").textContent = pView.qty; });
+  byId("pAdd").addEventListener("click", function(){
+    if (!pView.size){ byId("pHint").textContent = "Please choose a size first."; return; }
+    var v = pView; closeProduct(); addToCart(v.id, v.size, v.qty);
+  });
   byId("drawerClose").addEventListener("click", closeDrawer);
   byId("scrim").addEventListener("click", closeDrawer);
   byId("continueBtn").addEventListener("click", closeDrawer);
