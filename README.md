@@ -56,7 +56,10 @@ still appear in a file name — the public brand name everywhere is Blue Peak.
   (most customers shop on phones), light and dark modes. No emojis; SVG icons only.
   The phone layout (screens up to 720px) uses a dedicated card layout: compact
   product cards, three size buttons per row, the quantity stepper stacked above
-  a full-width "Add to Bag" button, so nothing is clipped or overflowing.
+  a full-width "Add to Bag" button, so nothing is clipped or overflowing. The
+  "Added to bag" notification is a slim bar pinned to the bottom of the screen
+  (check icon, at most two lines of text, and a pill-shaped View Bag button)
+  that matches the site's light/dark theme instead of a large floating box.
 - **Live catalogue** — on load, the storefront fetches the current products and
   store settings from Supabase and renders those (the embedded catalogue is only
   an offline fallback). Admin edits are therefore live without redeploying.
