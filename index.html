@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Blue Peak — Women's Stitched, Ready to Wear</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#faf6f0;
+    --bg-soft:#f3ece2;
+    --surface:#ffffff;
+    --surface-2:#f7f1e8;
+    --ink:#2b2130;
+    --ink-soft:#5d5266;
+    --ink-faint:#8a7d94;
+    --accent:#6d214f;
+    --accent-deep:#521838;
+    --accent-soft:#f6e7ef;
+    --gold:#b98a2f;
+    --line:#e7dccd;
+    --line-strong:#d9cbb4;
+    --green:#1f7a4d;
+    --green-bg:#e6f4ec;
+    --danger:#b3372f;
+    --shadow:0 2px 10px rgba(82,24,56,.07), 0 14px 34px rgba(82,24,56,.06);
+    --shadow-lg:0 18px 50px rgba(43,33,48,.22);
+    --radius:16px;
+    --header-h:64px;
+    --stick-top:101px; /* announcement bar (36px) + header bar (64px) + border */
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#171219;
+      --bg-soft:#1e1722;
+      --surface:#241b29;
+      --surface-2:#2b2133;
+      --ink:#f2eaf3;
+      --ink-soft:#c9bccf;
+      --ink-faint:#9d8fa5;
+      --accent:#e08bb9;
+      --accent-deep:#f0a8cd;
+      --accent-soft:#3a2133;
+      --gold:#d9ab55;
+      --line:#3a2d40;
+      --line-strong:#4a3a52;
+      --green:#5cc48c;
+      --green-bg:#1e3328;
+      --danger:#e08a84;
+      --shadow:0 2px 10px rgba(0,0,0,.35), 0 14px 34px rgba(0,0,0,.3);
+      --shadow-lg:0 18px 50px rgba(0,0,0,.55);
+    }
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+  input,textarea,select{font-family:inherit;font-size:16px;color:var(--ink);}
+  a{color:var(--accent);}
+  h1,h2,h3,.serif{font-family:"Playfair Display",Georgia,serif;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 20px;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:60;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  .announce{
+    background:var(--accent);color:#fff;
+    text-align:center;font-size:13px;font-weight:600;letter-spacing:.02em;
+    padding:8px 16px;
+  }
+  @media (prefers-color-scheme: dark){ .announce{color:#241019;} }
+  .bar{
+    display:flex;align-items:center;gap:14px;
+    height:var(--header-h);max-width:1200px;margin:0 auto;padding:0 20px;
+  }
+  .brand{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:26px;font-weight:700;letter-spacing:.01em;
+    color:var(--ink);text-decoration:none;white-space:nowrap;
+  }
+  .brand span{color:var(--accent);}
+  nav.main{display:flex;gap:4px;margin-left:10px;flex:1;}
+  nav.main button{
+    background:none;border:0;color:var(--ink-soft);
+    font-size:14.5px;font-weight:500;padding:8px 11px;border-radius:9px;
+  }
+  nav.main button:hover{color:var(--accent);background:var(--accent-soft);}
+  nav.main button.active{color:var(--accent);font-weight:700;}
+  .head-actions{display:flex;align-items:center;gap:4px;margin-left:auto;}
+  .icon-btn{
+    position:relative;background:none;border:0;color:var(--ink);
+    width:42px;height:42px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .icon-btn:hover{background:var(--surface-2);}
+  .icon-btn svg{width:22px;height:22px;}
+  .cart-count{
+    position:absolute;top:2px;right:0;min-width:19px;height:19px;
+    background:var(--accent);color:#fff;border-radius:10px;
+    font-size:11px;font-weight:700;line-height:19px;text-align:center;padding:0 5px;
+  }
+  @media (prefers-color-scheme: dark){ .cart-count{color:#241019;} }
+  .menu-btn{display:none;}
+  .mobile-nav{
+    display:none;border-top:1px solid var(--line);
+    padding:10px 20px 14px;background:var(--bg);
+  }
+  .mobile-nav.open{display:block;}
+  .mobile-nav button{
+    display:block;width:100%;text-align:left;background:none;border:0;
+    padding:11px 6px;font-size:16px;font-weight:500;color:var(--ink);
+    border-bottom:1px solid var(--line);
+  }
+  .mobile-nav button:last-child{border-bottom:0;}
+  .search-row{
+    display:none;border-top:1px solid var(--line);padding:12px 20px;background:var(--bg);
+  }
+  .search-row.open{display:block;}
+  .search-row .wrap{padding:0;display:flex;gap:10px;max-width:1200px;}
+  .search-row input{
+    flex:1;border:1px solid var(--line-strong);border-radius:11px;
+    padding:11px 14px;background:var(--surface);outline:none;
+  }
+  .search-row input:focus{border-color:var(--accent);}
+  @media (max-width:900px){
+    nav.main{display:none;}
+    .menu-btn{display:inline-flex;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{background:var(--bg-soft);border-bottom:1px solid var(--line);}
+  .hero .wrap{
+    display:grid;grid-template-columns:1.05fr .95fr;gap:44px;
+    align-items:center;padding-top:52px;padding-bottom:52px;
+  }
+  .hero .kicker{
+    font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 14px;
+  }
+  .hero h1{font-size:clamp(34px,5.2vw,54px);line-height:1.12;margin:0 0 18px;font-weight:600;}
+  .hero p.lede{font-size:17.5px;color:var(--ink-soft);margin:0 0 28px;max-width:46ch;}
+  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border-radius:12px;font-weight:600;font-size:15.5px;
+    padding:13px 24px;border:1px solid transparent;text-decoration:none;
+    transition:transform .12s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover{background:var(--accent-deep);}
+  @media (prefers-color-scheme: dark){ .btn-primary{color:#241019;} .btn-primary:hover{color:#241019;} }
+  .btn-outline{background:transparent;color:var(--accent);border-color:var(--accent);}
+  .btn-outline:hover{background:var(--accent-soft);}
+  .hero-points{display:flex;gap:20px;flex-wrap:wrap;margin-top:30px;}
+  .hero-points div{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-soft);}
+  .hero-points svg{width:18px;height:18px;color:var(--green);flex:none;}
+  .hero-img{
+    border-radius:22px;overflow:hidden;box-shadow:var(--shadow);
+    aspect-ratio:4/4.6;background:var(--surface-2);
+  }
+  .hero-img img{width:100%;height:100%;object-fit:cover;object-position:top center;}
+  @media (max-width:820px){
+    .hero .wrap{grid-template-columns:1fr;gap:28px;padding-top:36px;padding-bottom:40px;}
+    .hero-img{aspect-ratio:4/3.4;}
+  }
+
+  /* ---------- Shop toolbar ---------- */
+  .shop-head{padding:52px 0 6px;text-align:center;}
+  .shop-head h2{font-size:clamp(28px,4vw,38px);margin:0 0 8px;font-weight:600;}
+  .shop-head p{color:var(--ink-soft);margin:0 auto;max-width:56ch;}
+  .toolbar{
+    position:sticky;top:var(--stick-top);z-index:40;
+    background:var(--bg);padding:16px 0 12px;margin-top:22px;
+    border-bottom:1px solid var(--line);
+  }
+  .toolbar .wrap{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;flex:1;}
+  .chip{
+    border:1px solid var(--line-strong);background:var(--surface);
+    color:var(--ink-soft);border-radius:999px;padding:9px 16px;
+    font-size:14px;font-weight:600;
+  }
+  .chip:hover{border-color:var(--accent);color:var(--accent);}
+  .chip.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+  @media (prefers-color-scheme: dark){ .chip.active{color:#241019;} }
+  .toolbar .searchbox{position:relative;min-width:210px;flex:0 1 280px;}
+  .toolbar .searchbox svg{
+    position:absolute;left:12px;top:50%;transform:translateY(-50%);
+    width:18px;height:18px;color:var(--ink-faint);pointer-events:none;
+  }
+  .toolbar .searchbox input{
+    width:100%;border:1px solid var(--line-strong);border-radius:999px;
+    padding:10px 14px 10px 38px;background:var(--surface);outline:none;font-size:14.5px;
+  }
+  .toolbar .searchbox input:focus{border-color:var(--accent);}
+  .result-count{font-size:13.5px;color:var(--ink-faint);padding:12px 0 0;}
+  @media (max-width:640px){
+    .toolbar .searchbox{flex:1 1 100%;order:-1;}
+  }
+
+  /* ---------- Product grid ---------- */
+  .grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:26px;
+    padding:30px 0 70px;
+  }
+  @media (max-width:1020px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media (max-width:720px){ .grid{grid-template-columns:repeat(2,1fr);gap:16px;} }
+  @media (max-width:380px){ .grid{grid-template-columns:1fr;} }
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;
+  }
+  .card .photo{position:relative;aspect-ratio:3/4;background:var(--surface-2);overflow:hidden;}
+  .card .photo img{width:100%;height:100%;object-fit:cover;object-position:top center;}
+  .badge-off{
+    position:absolute;top:12px;left:12px;background:var(--accent);color:#fff;
+    font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:8px;letter-spacing:.02em;
+  }
+  @media (prefers-color-scheme: dark){ .badge-off{color:#241019;} }
+  .badge-cat{
+    position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,.92);color:#521838;
+    font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:7px;
+  }
+  .card-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:7px;flex:1;}
+  .card h3{font-size:17.5px;line-height:1.3;margin:0;font-weight:600;}
+  .fabric{font-size:13.5px;color:var(--ink-faint);margin:0;}
+  .price-row{display:flex;align-items:baseline;gap:9px;margin-top:2px;flex-wrap:wrap;}
+  .price{font-size:18px;font-weight:700;color:var(--accent);}
+  .was{font-size:14.5px;color:var(--ink-faint);text-decoration:line-through;}
+  .save-tag{font-size:12px;font-weight:700;color:var(--green);background:var(--green-bg);padding:3px 8px;border-radius:6px;}
+  .size-label{font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-top:8px;letter-spacing:.04em;text-transform:uppercase;}
+  .sizes{display:flex;gap:6px;flex-wrap:wrap;}
+  .size-btn{
+    min-width:40px;padding:7px 6px;border:1px solid var(--line-strong);border-radius:9px;
+    background:var(--surface);font-size:13.5px;font-weight:600;color:var(--ink);
+  }
+  .size-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .size-btn.sel{background:var(--accent);border-color:var(--accent);color:#fff;}
+  @media (prefers-color-scheme: dark){ .size-btn.sel{color:#241019;} }
+  .size-hint{font-size:12.5px;color:var(--danger);min-height:16px;margin:0;}
+  .buy-row{display:flex;gap:8px;margin-top:auto;padding-top:10px;}
+  .qty{
+    display:flex;align-items:center;border:1px solid var(--line-strong);border-radius:11px;overflow:hidden;flex:none;
+  }
+  .qty button{
+    width:32px;height:44px;background:var(--surface-2);border:0;font-size:17px;color:var(--ink);line-height:1;
+  }
+  .qty span{min-width:28px;text-align:center;font-weight:600;font-size:14.5px;}
+  .add-btn{
+    flex:1;background:var(--accent);color:#fff;border:0;border-radius:11px;
+    font-size:15px;font-weight:600;padding:12px 10px;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .add-btn:hover{background:var(--accent-deep);}
+  @media (prefers-color-scheme: dark){ .add-btn{color:#241019;} }
+  .add-btn svg{width:18px;height:18px;}
+  .empty-state{
+    grid-column:1/-1;text-align:center;padding:56px 20px;color:var(--ink-soft);
+    background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--radius);
+  }
+  .empty-state h3{margin:0 0 6px;font-size:22px;color:var(--ink);}
+  .empty-state p{margin:0;}
+
+  /* ---------- Info sections ---------- */
+  section.info{padding:64px 0;}
+  section.info.alt{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .info h2{font-size:clamp(26px,3.6vw,34px);margin:0 0 10px;font-weight:600;text-align:center;}
+  .info .sub{color:var(--ink-soft);text-align:center;margin:0 auto 36px;max-width:58ch;}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  @media (max-width:900px){ .steps{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .steps{grid-template-columns:1fr;} }
+  .step{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow);
+  }
+  .step .num{
+    width:38px;height:38px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+    font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:18px;
+    display:flex;align-items:center;justify-content:center;margin-bottom:12px;
+  }
+  .step h3{font-size:18px;margin:0 0 6px;font-weight:600;}
+  .step p{margin:0;font-size:14.5px;color:var(--ink-soft);}
+  .support-card{
+    max-width:640px;margin:0 auto;background:var(--surface);border:1px solid var(--line);
+    border-radius:20px;box-shadow:var(--shadow);padding:34px 30px;text-align:center;
+  }
+  .support-card .avatar{
+    width:64px;height:64px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
+  }
+  .support-card .avatar svg{width:32px;height:32px;}
+  .support-card h3{font-size:24px;margin:0 0 4px;}
+  .support-card .who{font-weight:600;color:var(--ink);margin:0;}
+  .support-card .role{color:var(--ink-faint);font-size:14px;margin:2px 0 14px;}
+  .support-card p.note{color:var(--ink-soft);font-size:15px;margin:0 0 22px;}
+  .wa-btn{
+    display:inline-flex;align-items:center;gap:10px;background:#1faa55;color:#fff;
+    border-radius:12px;padding:14px 26px;font-weight:700;font-size:16px;text-decoration:none;border:0;
+  }
+  .wa-btn:hover{background:#178f47;}
+  .wa-btn svg{width:22px;height:22px;}
+  .support-card .num-line{margin-top:14px;font-size:14.5px;color:var(--ink-soft);}
+  .support-card .num-line strong{color:var(--ink);letter-spacing:.03em;}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--accent-deep);color:#f3e3ec;margin-top:0;}
+  @media (prefers-color-scheme: dark){ footer{background:#12090f;color:#cdb9c9;} }
+  footer .cols{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;padding:52px 0 36px;
+  }
+  @media (max-width:720px){ footer .cols{grid-template-columns:1fr;gap:26px;} }
+  footer .fbrand{font-family:"Playfair Display",Georgia,serif;font-size:26px;font-weight:700;color:#fff;margin:0 0 10px;}
+  @media (prefers-color-scheme: dark){ footer .fbrand{color:#f2eaf3;} }
+  footer p{font-size:14.5px;line-height:1.65;margin:0 0 8px;opacity:.88;}
+  footer h4{font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin:0 0 14px;color:#e9b8d2;font-family:"Inter",sans-serif;font-weight:700;}
+  @media (prefers-color-scheme: dark){ footer h4{color:#a97e9c;} }
+  footer ul{list-style:none;margin:0;padding:0;}
+  footer li{margin-bottom:9px;}
+  footer button.linklike, footer a{
+    background:none;border:0;padding:0;color:inherit;font-size:14.5px;text-decoration:none;opacity:.88;text-align:left;
+  }
+  footer button.linklike:hover, footer a:hover{opacity:1;text-decoration:underline;}
+  footer .fineprint{
+    border-top:1px solid rgba(255,255,255,.18);padding:18px 0 26px;
+    font-size:13.5px;opacity:.8;display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;
+  }
+
+  /* ---------- Cart drawer ---------- */
+  .scrim{
+    position:fixed;inset:0;background:rgba(30,16,26,.45);z-index:80;
+    opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  .scrim.open{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;top:0;right:0;height:100dvh;width:min(430px,100vw);z-index:90;
+    background:var(--bg);box-shadow:var(--shadow-lg);
+    transform:translateX(105%);transition:transform .25s ease, visibility 0s linear .3s;
+    display:flex;flex-direction:column;visibility:hidden;
+  }
+  .drawer.open{transform:translateX(0);visibility:visible;transition:transform .25s ease, visibility 0s;}
+  .drawer-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 20px;border-bottom:1px solid var(--line);
+  }
+  .drawer-head h3{margin:0;font-size:22px;}
+  .drawer-body{flex:1;overflow-y:auto;padding:16px 20px;}
+  .cart-empty{text-align:center;color:var(--ink-soft);padding:48px 10px;}
+  .cart-empty svg{width:52px;height:52px;color:var(--ink-faint);margin:0 auto 12px;}
+  .cart-item{
+    display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);
+  }
+  .cart-item img{width:64px;height:84px;object-fit:cover;object-position:top center;border-radius:10px;flex:none;}
+  .cart-item .ci-main{flex:1;min-width:0;}
+  .cart-item h4{margin:0 0 2px;font-size:14.5px;line-height:1.35;font-family:"Inter",sans-serif;font-weight:600;}
+  .cart-item .ci-meta{font-size:13px;color:var(--ink-faint);margin:0 0 8px;}
+  .cart-item .ci-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .ci-qty{display:flex;align-items:center;border:1px solid var(--line-strong);border-radius:9px;overflow:hidden;}
+  .ci-qty button{width:28px;height:30px;background:var(--surface-2);border:0;font-size:15px;color:var(--ink);}
+  .ci-qty span{min-width:24px;text-align:center;font-weight:600;font-size:13.5px;}
+  .ci-price{font-weight:700;font-size:14.5px;color:var(--accent);white-space:nowrap;}
+  .ci-price .ci-was{display:block;font-weight:400;font-size:12px;color:var(--ink-faint);text-decoration:line-through;text-align:right;}
+  .remove-btn{background:none;border:0;color:var(--danger);font-size:13px;font-weight:600;padding:4px 0;}
+  .drawer-foot{border-top:1px solid var(--line);padding:18px 20px 22px;background:var(--surface);}
+  .tot-row{display:flex;justify-content:space-between;font-size:15px;margin-bottom:7px;color:var(--ink-soft);}
+  .tot-row.savings{color:var(--green);font-weight:600;}
+  .tot-row.grand{font-size:18px;font-weight:700;color:var(--ink);border-top:1px dashed var(--line-strong);padding-top:10px;margin-top:10px;}
+  .cod-note{
+    display:flex;gap:8px;align-items:center;background:var(--green-bg);color:var(--green);
+    font-size:13.5px;font-weight:600;border-radius:10px;padding:10px 12px;margin:12px 0 14px;
+  }
+  .cod-note svg{width:18px;height:18px;flex:none;}
+  .checkout-btn{width:100%;}
+  .continue-btn{width:100%;margin-top:9px;background:none;border:0;color:var(--accent);font-weight:600;font-size:14.5px;padding:8px;}
+
+  /* ---------- Checkout modal ---------- */
+  .modal{
+    position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;
+  }
+  .modal.open{display:flex;}
+  .modal .scrim2{position:absolute;inset:0;background:rgba(30,16,26,.5);}
+  .sheet{
+    position:relative;background:var(--bg);width:min(560px,100vw);max-height:92dvh;overflow-y:auto;
+    border-radius:22px 22px 0 0;padding:26px 24px 30px;box-shadow:var(--shadow-lg);
+  }
+  @media (min-width:640px){ .modal{align-items:center;} .sheet{border-radius:22px;} }
+  .sheet h3{font-size:24px;margin:0 0 4px;}
+  .sheet .sheet-sub{color:var(--ink-soft);font-size:14.5px;margin:0 0 20px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px;}
+  .field label .opt{color:var(--ink-faint);font-weight:400;}
+  .field input,.field textarea{
+    width:100%;border:1px solid var(--line-strong);border-radius:11px;
+    padding:12px 13px;background:var(--surface);outline:none;
+  }
+  .field input:focus,.field textarea:focus{border-color:var(--accent);}
+  .field .err{font-size:12.5px;color:var(--danger);margin-top:5px;display:none;}
+  .field.invalid input,.field.invalid textarea{border-color:var(--danger);}
+  .field.invalid .err{display:block;}
+  .order-summary{
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:16px;margin-bottom:18px;font-size:14.5px;
+  }
+  .order-summary h4{margin:0 0 10px;font-size:15px;font-family:"Inter",sans-serif;}
+  .order-summary .os-row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;color:var(--ink-soft);}
+  .order-summary .os-row span:last-child{white-space:nowrap;color:var(--ink);font-weight:600;}
+  .order-summary .os-total{border-top:1px dashed var(--line-strong);margin-top:8px;padding-top:10px;font-weight:700;color:var(--ink);}
+  .sheet .close-x{
+    position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;
+    border:0;background:var(--surface-2);color:var(--ink);display:flex;align-items:center;justify-content:center;
+  }
+  .sheet .close-x svg{width:19px;height:19px;}
+  .confirm-box{text-align:center;padding:8px 0 4px;}
+  .confirm-box .tick{
+    width:66px;height:66px;border-radius:50%;background:var(--green-bg);color:var(--green);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
+  }
+  .confirm-box .tick svg{width:34px;height:34px;}
+  .confirm-box h3{margin-bottom:8px;}
+  .confirm-box p{color:var(--ink-soft);margin:0 0 18px;font-size:15px;}
+  .confirm-actions{display:flex;flex-direction:column;gap:10px;}
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translate(-50%,80px);z-index:120;
+    background:var(--ink);color:var(--bg);border-radius:12px;padding:13px 20px;
+    font-size:14.5px;font-weight:600;box-shadow:var(--shadow-lg);
+    transition:transform .25s ease;max-width:calc(100vw - 32px);text-align:center;
+    display:flex;gap:14px;align-items:center;
+  }
+  .toast.show{transform:translate(-50%,0);}
+  .toast button{background:none;border:0;color:var(--gold);font-weight:700;font-size:14.5px;padding:0;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .drawer,.scrim,.toast,.btn{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="announce">Sale is live — flat 50% off everything, with Cash on Delivery across Pakistan</div>
+  <div class="bar">
+    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+    <a class="brand" href="#" id="brandHome">Blue <span>Peak</span></a>
+    <nav class="main" id="mainNav" aria-label="Shop categories"></nav>
+    <div class="head-actions">
+      <button class="icon-btn" id="searchBtn" aria-label="Search products">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+      </button>
+      <button class="icon-btn" id="accountBtn" aria-label="How ordering and accounts work">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+      </button>
+      <button class="icon-btn" id="cartBtn" aria-label="Open shopping bag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h15l-1.5 9h-12z"/><path d="M6 7L5 3H2"/><circle cx="9" cy="20" r="1.6"/><circle cx="17" cy="20" r="1.6"/></svg>
+        <span class="cart-count" id="cartCount" hidden>0</span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-nav" id="mobileNav"></div>
+  <div class="search-row" id="searchRow">
+    <div class="wrap">
+      <input type="search" id="topSearch" placeholder="Search suits, fabrics, colours…" aria-label="Search products" />
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="kicker">Blue Peak &middot; New Season Edit</p>
+        <h1>Women&rsquo;s Stitched &mdash; Ready to Wear</h1>
+        <p class="lede">Stitched co-ord sets and 2PC &amp; 3PC suits in sizes XS to XXL, made to be worn the day they arrive. Every piece is half price right now.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" data-shopnow>Shop the Collection</button>
+          <a class="btn btn-outline" href="#support">Talk to Support</a>
+        </div>
+        <div class="hero-points">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Cash on Delivery</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Sizes XS&ndash;XXL</div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Order on WhatsApp</div>
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-model-in-blue-embroidered-shalwar-kameez-dress-with-scarf.jpg?v=1791910694" alt="Model wearing a midnight blue embroidered shalwar kameez with scarf" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop -->
+  <section id="shop">
+    <div class="wrap">
+      <div class="shop-head">
+        <h2 id="shopTitle">Shop Women&rsquo;s Stitched</h2>
+        <p id="shopSub">The full Blue Peak stitched collection &mdash; pick your size on each piece and add it to your bag.</p>
+      </div>
+    </div>
+    <div class="toolbar">
+      <div class="wrap">
+        <div class="chips" id="chips"></div>
+        <div class="searchbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+          <input type="search" id="gridSearch" placeholder="Search products…" aria-label="Search products" />
+        </div>
+      </div>
+      <div class="wrap"><p class="result-count" id="resultCount"></p></div>
+    </div>
+    <div class="wrap">
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- How ordering works / accounts -->
+  <section class="info alt" id="account">
+    <div class="wrap">
+      <h2>Ordering is simple &mdash; no account needed</h2>
+      <p class="sub">You do not need to sign up or log in to shop at Blue Peak. There are no passwords to remember: you order with your name and phone number, and we confirm everything with you on WhatsApp.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Choose your pieces</h3>
+          <p>Browse the collection, pick a size (XS&ndash;XXL) on each suit and add it to your bag.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>Check out in the bag</h3>
+          <p>Open your bag and fill in your name, phone number, city and full address &mdash; that is all we need.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>Confirm on WhatsApp</h3>
+          <p>Your order opens in WhatsApp, ready to send to our support team. Press send and your order is placed.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h3>Pay at your door</h3>
+          <p>We confirm your order on WhatsApp and deliver to your address. You pay in cash when it arrives.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section class="info" id="support">
+    <div class="wrap">
+      <h2>We are here to help</h2>
+      <p class="sub">Questions about a size, a fabric, delivery or an order you have placed? Message the support team on WhatsApp and share your order details with your question so we can help you faster.</p>
+      <div class="support-card">
+        <div class="avatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+        </div>
+        <h3>Blue Peak Support Team</h3>
+        <p class="who">Muhammad Ibrahim</p>
+        <p class="role">Store owner &amp; customer support</p>
+        <p class="note">Message us on WhatsApp with your name, the items you ordered and your question &mdash; we reply as quickly as we can during the day.</p>
+        <a class="wa-btn" href="https://wa.me/923485581969?text=Assalam-o-Alaikum%20Blue%20Peak%2C%20I%20have%20a%20question%20about%20my%20order." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.8l.5-.6c.1-.2.1-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3z"/></svg>
+          Chat on WhatsApp
+        </a>
+        <p class="num-line">WhatsApp: <strong>0348 5581969</strong></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <p class="fbrand">Blue Peak</p>
+        <p>Women&rsquo;s stitched, ready-to-wear suits &mdash; co-ord sets, 2PC and 3PC in sizes XS to XXL, delivered across Pakistan.</p>
+        <p>Product photos are sample photos and the colour on screen may differ slightly from the product name &mdash; please confirm the exact shade with us on WhatsApp before ordering if it matters to you.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul id="footShop"></ul>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#support">Support &amp; Contact</a></li>
+          <li><a href="#account">How Ordering Works</a></li>
+          <li><a href="https://wa.me/923485581969" target="_blank" rel="noopener">WhatsApp: 0348 5581969</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fineprint">
+      <span>Prices in PKR. Cash on Delivery available across Pakistan.</span>
+      <span>&copy; Blue Peak</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Cart drawer -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Shopping bag">
+  <div class="drawer-head">
+    <h3>Your Bag</h3>
+    <button class="icon-btn" id="drawerClose" aria-label="Close bag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot" hidden>
+    <div class="tot-row"><span>Subtotal</span><span id="subTotal"></span></div>
+    <div class="tot-row savings"><span>You save (50% off)</span><span id="saveTotal"></span></div>
+    <div class="tot-row grand"><span>Total to pay</span><span id="grandTotal"></span></div>
+    <div class="cod-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg>
+      Cash on Delivery available &mdash; pay when your order arrives.
+    </div>
+    <button class="btn btn-primary checkout-btn" id="checkoutBtn">Checkout on WhatsApp</button>
+    <button class="continue-btn" id="continueBtn">Continue shopping</button>
+  </div>
+</aside>
+
+<!-- Checkout modal -->
+<div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Checkout">
+  <div class="scrim2" id="modalScrim"></div>
+  <div class="sheet">
+    <button class="close-x" id="modalClose" aria-label="Close checkout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+    <div id="checkoutFormView">
+      <h3>Checkout</h3>
+      <p class="sheet-sub">Fill in your details, then your order opens in WhatsApp ready to send. Payment is Cash on Delivery.</p>
+      <div class="order-summary" id="checkoutSummary"></div>
+      <form id="checkoutForm" novalidate>
+        <div class="field" id="f-name">
+          <label for="inName">Full name</label>
+          <input id="inName" type="text" autocomplete="name" placeholder="e.g. Fatima Khan" />
+          <p class="err">Please enter your name.</p>
+        </div>
+        <div class="field" id="f-phone">
+          <label for="inPhone">Phone / WhatsApp number</label>
+          <input id="inPhone" type="tel" autocomplete="tel" placeholder="e.g. 0300 1234567" />
+          <p class="err">Please enter a valid phone number.</p>
+        </div>
+        <div class="field" id="f-city">
+          <label for="inCity">City</label>
+          <input id="inCity" type="text" autocomplete="address-level2" placeholder="e.g. Lahore" />
+          <p class="err">Please enter your city.</p>
+        </div>
+        <div class="field" id="f-address">
+          <label for="inAddress">Full address</label>
+          <textarea id="inAddress" rows="3" autocomplete="street-address" placeholder="House, street, area, nearest landmark"></textarea>
+          <p class="err">Please enter your full delivery address.</p>
+        </div>
+        <div class="field">
+          <label for="inNote">Note for us <span class="opt">(optional)</span></label>
+          <input id="inNote" type="text" placeholder="Anything we should know?" />
+        </div>
+        <button type="submit" class="btn btn-primary checkout-btn">Place Order on WhatsApp</button>
+      </form>
+    </div>
+    <div id="confirmView" hidden>
+      <div class="confirm-box">
+        <div class="tick">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Order ready &mdash; one last tap</h3>
+        <p id="confirmText">Your order has been composed in WhatsApp. Press send there and the Blue Peak team will confirm it with you. You pay in cash when your order arrives.</p>
+      </div>
+      <div class="order-summary" id="confirmSummary"></div>
+      <div class="confirm-actions">
+        <a class="wa-btn" id="confirmWaBtn" href="#" target="_blank" rel="noopener" style="justify-content:center;">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.2-.8l.5-.6c.1-.2.1-.4 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3z"/></svg>
+          Open WhatsApp Again
+        </a>
+        <button class="btn btn-outline" id="confirmDone">Done &mdash; back to the shop</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+"use strict";
+var WA_NUMBER = "923485581969";
+var SIZES = ["XS","S","M","L","XL","XXL"];
+var PRODUCTS = [
+  {id:1,  name:"Rose Pink Embroidered Co-ord Set",            cat:"Co-ord Sets",  price:3495,  was:6990,  fabric:"Textured cotton, embroidered neckline",        img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno.jpg?v=1791910682", alt:"Model in a light printed kurta with trousers and an orange dupatta"},
+  {id:2,  name:"Sage Green Dobby Printed Co-ord Set",        cat:"Co-ord Sets",  price:2995,  was:5990,  fabric:"Dobby lawn, digital print",                    img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_798a7c35-fdc9-4f0a-bea3-b65448acd1f5.jpg?v=1791910688", alt:"Model wearing a sage green printed co-ord set"},
+  {id:3,  name:"Midnight Blue Jacquard Co-ord Set",          cat:"Co-ord Sets",  price:4495,  was:8990,  fabric:"Jacquard, dyed",                               img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-model-in-blue-embroidered-shalwar-kameez-dress-with-scarf.jpg?v=1791910694", alt:"Model in a midnight blue embroidered shalwar kameez with scarf"},
+  {id:4,  name:"Mustard Cotton Textured Co-ord Set",         cat:"Co-ord Sets",  price:2845,  was:5690,  fabric:"Cotton textured",                              img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno.jpg?v=1791910700", alt:"Model wearing a mustard textured cotton co-ord set"},
+  {id:5,  name:"Ivory Embroidered Co-ord Set",               cat:"Co-ord Sets",  price:3495,  was:6990,  fabric:"Embroidered textured fabric",                  img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno_9b5471bd-89b6-4b4d-aaf3-096ecfabd9d6.jpg?v=1791910706", alt:"Model wearing an ivory embroidered co-ord set"},
+  {id:6,  name:"Charcoal Denim Dyed Co-ord Set",             cat:"Co-ord Sets",  price:4995,  was:9990,  fabric:"Denim dyed",                                   img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno_775b44e5-2c3a-4489-908f-3037ebe638e3.jpg?v=1791910712", alt:"Model wearing a charcoal denim-dyed co-ord set"},
+  {id:7,  name:"Emerald Khaddar Printed 3PC Stitched",       cat:"3PC Stitched", price:4495,  was:8990,  fabric:"Khaddar print, with dupatta",                  img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/pexels-photo-27284033.jpg?v=1791910718", alt:"Model in an embroidered kurta seated with a printed dupatta"},
+  {id:8,  name:"Blush Paper Cotton Embroidered 3PC Stitched",cat:"3PC Stitched", price:9995,  was:19990, fabric:"Paper cotton, embroidered, with dupatta",      img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_af1e2698-1679-4775-a790-749aacc66a1f.jpg?v=1791910724", alt:"Model wearing a blush paper cotton embroidered three-piece suit"},
+  {id:9,  name:"Teal Linen Digital Printed 3PC Stitched",   cat:"3PC Stitched", price:4745,  was:9490,  fabric:"Linen digital print, with dupatta",            img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_3106e940-ca4d-45cb-862c-a2dcb274547f.jpg?v=1791910730", alt:"Model wearing a teal linen digital printed three-piece suit"},
+  {id:10, name:"Plum Raw Silk Embroidered 3PC Stitched",     cat:"3PC Stitched", price:10495, was:20990, fabric:"Raw silk, embroidered, with dupatta",          img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-eastern-dresses-2024-shoot-by-dhanno_fd64f84c-8362-4d45-8b91-66202354fa5c.jpg?v=1791910735", alt:"Model wearing a plum raw silk embroidered three-piece suit"},
+  {id:11, name:"Olive Linen Printed 2PC Stitched",           cat:"2PC Stitched", price:3995,  was:7990,  fabric:"Linen print",                                  img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-fashion-eastern-dresses-by-dhanno_2d50b8a2-0430-4beb-88af-02f198a27d09.jpg?v=1791910742", alt:"Model wearing an olive linen printed two-piece suit"},
+  {id:12, name:"Sand Khaddar Embroidered 2PC Stitched",      cat:"2PC Stitched", price:4295,  was:8590,  fabric:"Khaddar, embroidered",                         img:"https://cdn.shopify.com/s/files/1/0862/8938/3644/files/free-photo-of-elegant-pakistani-fashion-shoot-in-lahore.jpg?v=1791910749", alt:"Model wearing a sand khaddar embroidered two-piece suit"}
+];
+var FILTERS = [
+  {key:"all",   label:"Shop",          title:"Shop Women's Stitched", sub:"The full Blue Peak stitched collection — pick your size on each piece and add it to your bag."},
+  {key:"coord", label:"Co-ord Sets",   title:"Co-ord Sets",           sub:"Matching two-piece co-ord sets by Blue Peak, stitched and ready to wear.", match:"Co-ord Sets"},
+  {key:"3pc",   label:"3PC Stitched",  title:"3PC Stitched",          sub:"Three-piece stitched suits — shirt, trouser and dupatta.", match:"3PC Stitched"},
+  {key:"2pc",   label:"2PC Stitched",  title:"2PC Stitched",          sub:"Two-piece stitched suits — shirt and trouser.", match:"2PC Stitched"},
+  {key:"sale",  label:"Sale",          title:"Sale — Flat 50% Off",   sub:"Every piece in the store is on sale right now: half price, while stock lasts."}
+];
+
+var state = {
+  filter:"all",
+  query:"",
+  picks:{},   /* productId -> {size, qty} */
+  cart:[]     /* {id, size, qty} */
+};
+PRODUCTS.forEach(function(p){ state.picks[p.id] = {size:null, qty:1}; });
+
+function fmt(n){ return "PKR " + n.toLocaleString("en-PK"); }
+function byId(id){ return document.getElementById(id); }
+function productById(id){ for (var i=0;i<PRODUCTS.length;i++) if (PRODUCTS[i].id===id) return PRODUCTS[i]; return null; }
+
+/* ---------- Navigation / filters ---------- */
+function buildNav(){
+  var nav = byId("mainNav"), mob = byId("mobileNav"), foot = byId("footShop");
+  FILTERS.forEach(function(f){
+    var b = document.createElement("button");
+    b.textContent = f.label; b.dataset.filter = f.key;
+    if (f.key === state.filter) b.classList.add("active");
+    b.addEventListener("click", function(){ setFilter(f.key); });
+    nav.appendChild(b);
+    var m = document.createElement("button");
+    m.textContent = f.label;
+    m.addEventListener("click", function(){ setFilter(f.key); byId("mobileNav").classList.remove("open"); });
+    mob.appendChild(m);
+    var li = document.createElement("li");
+    var fb = document.createElement("button");
+    fb.className = "linklike"; fb.textContent = f.label;
+    fb.addEventListener("click", function(){ setFilter(f.key); });
+    li.appendChild(fb); foot.appendChild(li);
+  });
+  var sup = document.createElement("button");
+  sup.textContent = "Support";
+  sup.addEventListener("click", function(){ document.getElementById("support").scrollIntoView({behavior:"smooth"}); });
+  nav.appendChild(sup);
+  var supM = document.createElement("button");
+  supM.textContent = "Support";
+  supM.addEventListener("click", function(){ byId("mobileNav").classList.remove("open"); document.getElementById("support").scrollIntoView({behavior:"smooth"}); });
+  mob.appendChild(supM);
+
+  var chips = byId("chips");
+  FILTERS.forEach(function(f){
+    var c = document.createElement("button");
+    c.className = "chip" + (f.key===state.filter ? " active" : "");
+    c.textContent = f.label; c.dataset.chip = f.key;
+    c.addEventListener("click", function(){ setFilter(f.key); });
+    chips.appendChild(c);
+  });
+}
+function setFilter(key){
+  state.filter = key;
+  var f = FILTERS.filter(function(x){ return x.key===key; })[0];
+  byId("shopTitle").textContent = f.title;
+  byId("shopSub").textContent = f.sub;
+  document.querySelectorAll("#mainNav button[data-filter]").forEach(function(b){
+    b.classList.toggle("active", b.dataset.filter===key);
+  });
+  document.querySelectorAll("#chips .chip").forEach(function(c){
+    c.classList.toggle("active", c.dataset.chip===key);
+  });
+  renderGrid();
+  document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+}
+function visibleProducts(){
+  var f = FILTERS.filter(function(x){ return x.key===state.filter; })[0];
+  var q = state.query.trim().toLowerCase();
+  return PRODUCTS.filter(function(p){
+    if (f.match && p.cat !== f.match) return false;
+    if (q){
+      var hay = (p.name + " " + p.fabric + " " + p.cat).toLowerCase();
+      if (hay.indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+}
+
+/* ---------- Product grid ---------- */
+function renderGrid(){
+  var grid = byId("grid");
+  grid.innerHTML = "";
+  var list = visibleProducts();
+  byId("resultCount").textContent = list.length === PRODUCTS.length
+    ? "Showing all " + list.length + " products"
+    : "Showing " + list.length + " of " + PRODUCTS.length + " products";
+  if (!list.length){
+    var empty = document.createElement("div");
+    empty.className = "empty-state";
+    empty.innerHTML = "<h3>Nothing matches that search</h3><p>Try a different word — a colour, a fabric like &lsquo;khaddar&rsquo;, or browse a category above.</p>";
+    grid.appendChild(empty);
+    return;
+  }
+  list.forEach(function(p){
+    var pick = state.picks[p.id];
+    var card = document.createElement("article");
+    card.className = "card";
+    var sizesHtml = SIZES.map(function(s){
+      return '<button type="button" class="size-btn' + (pick.size===s ? " sel" : "") + '" data-size="' + s + '">' + s + "</button>";
+    }).join("");
+    card.innerHTML =
+      '<div class="photo"><img src="' + p.img + '" alt="' + p.alt + '" />' +
+      '<span class="badge-off">-50%</span><span class="badge-cat">' + p.cat + '</span></div>' +
+      '<div class="card-body">' +
+        "<h3>" + p.name + "</h3>" +
+        '<p class="fabric">' + p.fabric + "</p>" +
+        '<div class="price-row"><span class="price">' + fmt(p.price) + '</span>' +
+        '<span class="was">' + fmt(p.was) + '</span>' +
+        '<span class="save-tag">Save ' + fmt(p.was - p.price) + "</span></div>" +
+        '<p class="size-label">Select size</p>' +
+        '<div class="sizes">' + sizesHtml + "</div>" +
+        '<p class="size-hint" aria-live="polite"></p>' +
+        '<div class="buy-row">' +
+          '<div class="qty"><button type="button" data-q="-1" aria-label="Decrease quantity">&minus;</button><span>' + pick.qty + '</span><button type="button" data-q="1" aria-label="Increase quantity">+</button></div>' +
+          '<button type="button" class="add-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h15l-1.5 9h-12z"/><path d="M6 7L5 3H2"/><circle cx="9" cy="20" r="1.6"/><circle cx="17" cy="20" r="1.6"/></svg>Add to Bag</button>' +
+        "</div>" +
+      "</div>";
+    card.querySelectorAll(".size-btn").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        pick.size = btn.dataset.size;
+        card.querySelector(".size-hint").textContent = "";
+        card.querySelectorAll(".size-btn").forEach(function(b){ b.classList.toggle("sel", b===btn); });
+      });
+    });
+    card.querySelectorAll(".qty button").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        pick.qty = Math.min(10, Math.max(1, pick.qty + parseInt(btn.dataset.q, 10)));
+        card.querySelector(".qty span").textContent = pick.qty;
+      });
+    });
+    card.querySelector(".add-btn").addEventListener("click", function(){
+      if (!pick.size){
+        card.querySelector(".size-hint").textContent = "Please choose a size first.";
+        card.querySelector(".sizes").scrollIntoView({behavior:"smooth", block:"center"});
+        return;
+      }
+      addToCart(p.id, pick.size, pick.qty);
+    });
+    grid.appendChild(card);
+  });
+}
+
+/* ---------- Cart ---------- */
+function addToCart(id, size, qty){
+  var found = null;
+  state.cart.forEach(function(it){ if (it.id===id && it.size===size) found = it; });
+  if (found) found.qty = Math.min(10, found.qty + qty);
+  else state.cart.push({id:id, size:size, qty:qty});
+  updateCartUI();
+  var p = productById(id);
+  showToast("Added: " + p.name + " (" + size + ")", true);
+}
+function cartTotals(){
+  var sub = 0, wasSub = 0, count = 0;
+  state.cart.forEach(function(it){
+    var p = productById(it.id);
+    sub += p.price * it.qty; wasSub += p.was * it.qty; count += it.qty;
+  });
+  return {sub:sub, wasSub:wasSub, savings:wasSub - sub, count:count};
+}
+function updateCartUI(){
+  var t = cartTotals();
+  var badge = byId("cartCount");
+  badge.hidden = t.count === 0;
+  badge.textContent = t.count;
+  var body = byId("drawerBody"), foot = byId("drawerFoot");
+  body.innerHTML = "";
+  if (!state.cart.length){
+    foot.hidden = true;
+    body.innerHTML = '<div class="cart-empty">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h15l-1.5 9h-12z"/><path d="M6 7L5 3H2"/><circle cx="9" cy="20" r="1.6"/><circle cx="17" cy="20" r="1.6"/></svg>' +
+      "<p><strong>Your bag is empty.</strong><br/>Add a suit in your size and it will appear here.</p></div>";
+    return;
+  }
+  foot.hidden = false;
+  state.cart.forEach(function(it, idx){
+    var p = productById(it.id);
+    var row = document.createElement("div");
+    row.className = "cart-item";
+    row.innerHTML =
+      '<img src="' + p.img + '" alt="' + p.alt + '" />' +
+      '<div class="ci-main"><h4>' + p.name + "</h4>" +
+      '<p class="ci-meta">Size ' + it.size + " &middot; " + p.cat + "</p>" +
+      '<div class="ci-row">' +
+        '<div class="ci-qty"><button type="button" data-d="-1" aria-label="Decrease quantity">&minus;</button><span>' + it.qty + '</span><button type="button" data-d="1" aria-label="Increase quantity">+</button></div>' +
+        '<div class="ci-price">' + fmt(p.price * it.qty) + '<span class="ci-was">' + fmt(p.was * it.qty) + "</span></div>" +
+      "</div>" +
+      '<button type="button" class="remove-btn">Remove</button></div>';
+    row.querySelectorAll(".ci-qty button").forEach(function(b){
+      b.addEventListener("click", function(){
+        it.qty += parseInt(b.dataset.d, 10);
+        if (it.qty <= 0) state.cart.splice(idx, 1);
+        if (it.qty > 10) it.qty = 10;
+        updateCartUI();
+      });
+    });
+    row.querySelector(".remove-btn").addEventListener("click", function(){
+      state.cart.splice(idx, 1);
+      updateCartUI();
+    });
+    body.appendChild(row);
+  });
+  byId("subTotal").textContent = fmt(t.sub);
+  byId("saveTotal").innerHTML = "&minus; " + fmt(t.savings);
+  byId("grandTotal").textContent = fmt(t.sub);
+}
+function openDrawer(){ byId("drawer").classList.add("open"); byId("scrim").classList.add("open"); document.body.style.overflow = "hidden"; }
+function closeDrawer(){ byId("drawer").classList.remove("open"); byId("scrim").classList.remove("open"); document.body.style.overflow = ""; }
+
+/* ---------- Toast ---------- */
+var toastTimer = null;
+function showToast(msg, withView){
+  var toast = byId("toast");
+  toast.innerHTML = "";
+  var span = document.createElement("span");
+  span.textContent = msg;
+  toast.appendChild(span);
+  if (withView){
+    var b = document.createElement("button");
+    b.textContent = "View Bag";
+    b.addEventListener("click", function(){ toast.classList.remove("show"); openDrawer(); });
+    toast.appendChild(b);
+  }
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ toast.classList.remove("show"); }, 3200);
+}
+
+/* ---------- Checkout ---------- */
+function summaryHtml(){
+  var t = cartTotals();
+  var rows = state.cart.map(function(it){
+    var p = productById(it.id);
+    return '<div class="os-row"><span>' + p.name + " — Size " + it.size + " × " + it.qty + "</span><span>" + fmt(p.price * it.qty) + "</span></div>";
+  }).join("");
+  return "<h4>Your order</h4>" + rows +
+    '<div class="os-row"><span>You save (50% off)</span><span>&minus; ' + fmt(t.savings) + "</span></div>" +
+    '<div class="os-row os-total"><span>Total (Cash on Delivery)</span><span>' + fmt(t.sub) + "</span></div>";
+}
+function openCheckout(){
+  if (!state.cart.length){ showToast("Your bag is empty — add a suit first.", false); return; }
+  closeDrawer();
+  byId("checkoutSummary").innerHTML = summaryHtml();
+  byId("checkoutFormView").hidden = false;
+  byId("confirmView").hidden = true;
+  byId("checkoutModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeCheckout(){
+  byId("checkoutModal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+function fieldValid(id, ok){
+  byId(id).classList.toggle("invalid", !ok);
+  return ok;
+}
+function submitOrder(e){
+  e.preventDefault();
+  var name = byId("inName").value.trim();
+  var phone = byId("inPhone").value.trim();
+  var city = byId("inCity").value.trim();
+  var address = byId("inAddress").value.trim();
+  var note = byId("inNote").value.trim();
+  var digits = phone.replace(/\D/g, "");
+  var ok = true;
+  ok = fieldValid("f-name", name.length >= 3) && ok;
+  ok = fieldValid("f-phone", digits.length >= 10 && digits.length <= 13) && ok;
+  ok = fieldValid("f-city", city.length >= 2) && ok;
+  ok = fieldValid("f-address", address.length >= 10) && ok;
+  if (!ok) return;
+
+  var t = cartTotals();
+  var lines = [];
+  lines.push("New Order — Blue Peak");
+  lines.push("--------------------------------");
+  state.cart.forEach(function(it, i){
+    var p = productById(it.id);
+    lines.push((i + 1) + ". " + p.name);
+    lines.push("    Size: " + it.size + "  |  Qty: " + it.qty);
+    lines.push("    Price: " + fmt(p.price) + "  |  Line total: " + fmt(p.price * it.qty) + "  (was " + fmt(p.was * it.qty) + ")");
+  });
+  lines.push("--------------------------------");
+  lines.push("Total to pay (Cash on Delivery): " + fmt(t.sub));
+  lines.push("Total savings: " + fmt(t.savings));
+  lines.push("--------------------------------");
+  lines.push("Name: " + name);
+  lines.push("Phone: " + phone);
+  lines.push("City: " + city);
+  lines.push("Address: " + address);
+  if (note) lines.push("Note: " + note);
+  var url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
+
+  byId("confirmSummary").innerHTML = summaryHtml();
+  byId("confirmWaBtn").href = url;
+  byId("checkoutFormView").hidden = true;
+  byId("confirmView").hidden = false;
+  window.open(url, "_blank");
+}
+
+/* ---------- Wiring ---------- */
+document.addEventListener("DOMContentLoaded", function(){
+  buildNav();
+  renderGrid();
+  updateCartUI();
+
+  byId("menuBtn").addEventListener("click", function(){ byId("mobileNav").classList.toggle("open"); });
+  byId("searchBtn").addEventListener("click", function(){
+    var row = byId("searchRow");
+    row.classList.toggle("open");
+    if (row.classList.contains("open")) byId("topSearch").focus();
+  });
+  byId("accountBtn").addEventListener("click", function(){
+    document.getElementById("account").scrollIntoView({behavior:"smooth"});
+  });
+  byId("brandHome").addEventListener("click", function(e){ e.preventDefault(); window.scrollTo({top:0, behavior:"smooth"}); });
+  document.querySelectorAll("[data-shopnow]").forEach(function(b){
+    b.addEventListener("click", function(){ document.getElementById("shop").scrollIntoView({behavior:"smooth"}); });
+  });
+
+  function syncSearch(v){
+    state.query = v;
+    byId("gridSearch").value = v;
+    byId("topSearch").value = v;
+    renderGrid();
+  }
+  byId("gridSearch").addEventListener("input", function(){ syncSearch(this.value); });
+  byId("topSearch").addEventListener("input", function(){ syncSearch(this.value); });
+
+  byId("cartBtn").addEventListener("click", openDrawer);
+  byId("drawerClose").addEventListener("click", closeDrawer);
+  byId("scrim").addEventListener("click", closeDrawer);
+  byId("continueBtn").addEventListener("click", closeDrawer);
+  byId("checkoutBtn").addEventListener("click", openCheckout);
+  byId("modalClose").addEventListener("click", closeCheckout);
+  byId("modalScrim").addEventListener("click", closeCheckout);
+  byId("checkoutForm").addEventListener("submit", submitOrder);
+  byId("confirmDone").addEventListener("click", function(){
+    state.cart = [];
+    updateCartUI();
+    closeCheckout();
+    showToast("Thank you! Your order was sent to Blue Peak on WhatsApp.", false);
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape"){ closeDrawer(); closeCheckout(); }
+  });
+});
+</script>
+</body>
+</html>
