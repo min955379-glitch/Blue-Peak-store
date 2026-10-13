@@ -52,8 +52,11 @@ still appear in a file name — the public brand name everywhere is Blue Peak.
   summarises the order. No customer account is needed to order.
 - **Support section** — Blue Peak Support Team (Muhammad Ibrahim) with a tap-to-chat
   WhatsApp button; customers are asked to share their order details with their question.
-- **Design** — calm ivory-and-plum fashion look, serif display headings, mobile-first
-  (most customers shop on phones), light and dark modes. No emojis; SVG icons only.
+- **Design** — professional black theme (true-black background, charcoal cards,
+  warm-white text, soft-pink accent, gold for savings and highlights; dark-only
+  since 13 Oct 2026 on the owner's instruction — the green colour and the old
+  ivory/plum light theme were removed completely), serif display headings,
+  mobile-first (most customers shop on phones). No emojis; SVG icons only.
   The phone layout (screens up to 720px) uses a dedicated card layout: compact
   product cards, three size buttons per row, the quantity stepper stacked above
   a full-width "Add to Bag" button, so nothing is clipped or overflowing. The
