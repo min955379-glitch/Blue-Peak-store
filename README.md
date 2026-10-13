@@ -5,9 +5,9 @@
 Blue Peak is a women's ready-to-wear clothing store from Pakistan selling stitched
 co-ord sets, 3-piece and 2-piece suits. This repository contains the complete,
 working Blue Peak online store: the storefront page with product catalogue,
-shopping bag and WhatsApp checkout; customer **log-in and sign-up pages**; an
-owner-only **admin portal** where the whole store is edited; and the Supabase
-database schemas behind them.
+shopping bag and WhatsApp checkout (no customer accounts &mdash; customers
+order without signing up); an owner-only **admin portal** where the whole
+store is edited; and the Supabase database schemas behind them.
 
 **Project sync rule (owner's instruction):** whenever any site file changes, the
 change is pushed to this repository AND this README is updated in the same pass,
@@ -23,7 +23,7 @@ so the repository always matches the live site.
 
 | Surface | Address | Status |
 |---|---|---|
-| This website (Vercel) | https://blue-peak-store-min955379-6910.vercel.app | Live and public; pages: `/` storefront, `/login.html`, `/signup.html`, `/admin.html` |
+| This website (Vercel) | https://blue-peak-store-min955379-6910.vercel.app | Live and public; pages: `/` storefront, `/admin.html` admin portal |
 | Shopify store | https://zvkeh6-0v.myshopify.com | Built (12 products, collections, Support / Sign Up / Log In pages). Storefront still shows the password page until a paid Shopify plan is activated by the owner |
 | WordPress site | https://bluepeak8.wordpress.com | Live on the WordPress.com Free plan: Home / Shop / Support pages published, footer carries the real WhatsApp contact |
 | Customer accounts (Shopify) | https://shopify.com/86289383644/account | New customer accounts (email + 6-digit code, no password) |
@@ -59,9 +59,10 @@ still appear in a file name — the public brand name everywhere is Blue Peak.
   an offline fallback). Admin edits are therefore live without redeploying.
 - **Order recording** — every checkout is also inserted into Supabase `orders` /
   `order_items`, so the owner sees all orders in the admin portal.
-- **Customer accounts** — `signup.html` / `login.html` (Supabase Auth, email +
-  password). Ordering never requires an account; accounts are for faster repeat
-  orders.
+- **No customer accounts** — customer log-in and sign-up were removed on the
+  owner's instruction (13 Oct 2026). Ordering never requires an account:
+  customers order with name and phone, confirmed on WhatsApp. Supabase Auth
+  now exists only for the owner's admin-portal sign-in.
 - **Admin portal** — `admin.html`, owner-only (see "Accounts and the admin
   portal" below): edit/add/delete products, change prices and stock, toggle
   products on/off, review orders and update their status, and edit store
@@ -103,10 +104,9 @@ The storefront is deliberately simple:
   fetches live products + settings from Supabase (via the supabase-js CDN client
   and the public anon key) and re-renders. No build step, no framework — it can
   be hosted on any static host.
-- `login.html`, `signup.html`, `admin.html` — standalone pages in the same
-  design, each talking directly to Supabase Auth / database with the anon key;
-  all permissions are enforced by the database's row-level security, never by
-  the page alone.
+- `admin.html` — a standalone page in the same design, talking directly to
+  Supabase Auth / database with the anon key; all permissions are enforced by
+  the database's row-level security, never by the page alone.
 - Product photos are loaded from the Shopify CDN URLs stored in the `products`
   table (the same photos used on the Shopify products).
 - Checkout never takes payment online: it builds a WhatsApp deep link
@@ -118,8 +118,6 @@ The storefront is deliberately simple:
 ```
 .
 ├── index.html            # The storefront (live Supabase catalogue + WhatsApp checkout)
-├── login.html            # Customer log-in (Supabase Auth)
-├── signup.html           # Customer sign-up (Supabase Auth + profile)
 ├── admin.html            # Owner-only admin portal (products, orders, settings)
 ├── README.md             # This file
 └── supabase/
@@ -148,8 +146,8 @@ The same files also work unchanged on GitHub Pages, Netlify or any static host.
 ## Supabase (database + accounts)
 
 The live project is **blue-peak-store** (ref `fulhqtlofohrsytqcbbt`, region
-ap-south-1 / Mumbai): https://fulhqtlofohrsytqcbbt.supabase.co — the storefront,
-login/sign-up and admin pages are all wired to it with the public **anon key**
+ap-south-1 / Mumbai): https://fulhqtlofohrsytqcbbt.supabase.co — the storefront and the
+admin page are wired to it with the public **anon key**
 (the only key allowed in client code; never put the `service_role` key in this
 repo or in a web page).
 
@@ -181,21 +179,21 @@ repo or in a web page).
 - Signed-in users manage only their own profile row.
 - Admins (allowlist) may read/update orders, write products and settings.
 
-**Auth configuration** (set on the live project): sign-ups enabled, email
-confirmation OFF (accounts work immediately), site URL = the Vercel address,
-redirect allow-list = the Vercel domain.
+**Auth configuration** (set on the live project): email confirmation OFF,
+site URL = the Vercel address, redirect allow-list = the Vercel domain. Auth
+is used only by the owner for the admin portal (public sign-up is disabled in
+Supabase so no customer accounts can be created).
 
 ## Accounts and the admin portal
 
-- **Customers** sign up on `signup.html` (name, phone, email, password) and log
-  in on `login.html`. An account is optional — checkout stays account-free.
-- **The owner** signs up with the owner email address; because that email is in
-  `site_admins`, that account unlocks `admin.html`. Nothing in the customer
-  flow points to the portal: log-in and sign-up always return to the store,
-  there is no admin link anywhere on the public pages, and the portal opens
-  only when its address is visited directly and the owner signs in there. A
-  non-admin account opening that address is refused by the page and by the
-  database rules.
+- **Customers** do not create accounts and never log in — checkout is
+  account-free (name, phone, city, address, confirmed on WhatsApp).
+- **The owner** signs in on `admin.html` with the owner email address
+  (**min955379@gmail.com**); because that email is in `site_admins`, that
+  account unlocks the portal. There is no admin link anywhere on the public
+  pages, and the portal opens only when its address is visited directly and
+  the owner signs in there. Any other account opening that address is refused
+  by the page and by the database rules.
 - **Changing the admin:** edit the `site_admins` table in the Supabase
   dashboard (Table Editor) or SQL editor — no code change needed.
 - **In the portal** the owner can: add a product; edit any product's name,
