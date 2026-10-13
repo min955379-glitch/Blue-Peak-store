@@ -55,7 +55,7 @@
         <div class="msg" id="msg" role="status"></div>
       </form>
       <p class="alt">Already have an account? <a href="login.html">Log in</a></p>
-      <div class="note">Store owner: if you sign up with the owner email address, this same account also unlocks the <a href="admin.html">admin portal</a> where the whole store is managed.</div>
+      <div class="note">Your account details stay private and are only used for your orders. You can shop and check out any time &mdash; with or without an account.</div>
     </div>
   </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -88,9 +88,8 @@ document.getElementById("signupForm").addEventListener("submit", async function(
   var user = res.data.user;
   if (user && res.data.session){
     await sb.from("profiles").insert({ id: user.id, full_name: name, phone: phone });
-    var admin = await sb.rpc("is_admin");
-    show("Account created — welcome to Blue Peak! Taking you onwards…", true);
-    setTimeout(function(){ window.location.href = (admin.data === true) ? "admin.html" : "index.html"; }, 700);
+    show("Account created — welcome to Blue Peak! Taking you to the store…", true);
+    setTimeout(function(){ window.location.href = "index.html"; }, 700);
   } else if (user){
     show("Account created. Please check your email to confirm it, then log in.", true);
     setTimeout(function(){ window.location.href = "login.html"; }, 1200);

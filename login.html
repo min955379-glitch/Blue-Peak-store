@@ -75,8 +75,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
     return;
   }
   show("Logged in. Taking you to the store…", true);
-  var admin = await sb.rpc("is_admin");
-  setTimeout(function(){ window.location.href = (admin.data === true) ? "admin.html" : "index.html"; }, 500);
+  setTimeout(function(){ window.location.href = "index.html"; }, 500);
 });
 </script>
 </body>

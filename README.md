@@ -190,8 +190,12 @@ redirect allow-list = the Vercel domain.
 - **Customers** sign up on `signup.html` (name, phone, email, password) and log
   in on `login.html`. An account is optional — checkout stays account-free.
 - **The owner** signs up with the owner email address; because that email is in
-  `site_admins`, the same login unlocks `admin.html`. Logging in as the owner
-  sends you straight to the portal.
+  `site_admins`, that account unlocks `admin.html`. Nothing in the customer
+  flow points to the portal: log-in and sign-up always return to the store,
+  there is no admin link anywhere on the public pages, and the portal opens
+  only when its address is visited directly and the owner signs in there. A
+  non-admin account opening that address is refused by the page and by the
+  database rules.
 - **Changing the admin:** edit the `site_admins` table in the Supabase
   dashboard (Table Editor) or SQL editor — no code change needed.
 - **In the portal** the owner can: add a product; edit any product's name,
