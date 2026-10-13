@@ -4,9 +4,14 @@
 
 Blue Peak is a women's ready-to-wear clothing store from Pakistan selling stitched
 co-ord sets, 3-piece and 2-piece suits. This repository contains the complete,
-working Blue Peak online store website: a single self-contained storefront page
-with a product catalogue, shopping bag and WhatsApp checkout, plus the Supabase
-database schema for the store's products and orders.
+working Blue Peak online store: the storefront page with product catalogue,
+shopping bag and WhatsApp checkout; customer **log-in and sign-up pages**; an
+owner-only **admin portal** where the whole store is edited; and the Supabase
+database schemas behind them.
+
+**Project sync rule (owner's instruction):** whenever any site file changes, the
+change is pushed to this repository AND this README is updated in the same pass,
+so the repository always matches the live site.
 
 - **Owner / Support:** Muhammad Ibrahim — Blue Peak Support Team
 - **Customer WhatsApp:** 03485581969 (https://wa.me/923485581969)
@@ -18,9 +23,9 @@ database schema for the store's products and orders.
 
 | Surface | Address | Status |
 |---|---|---|
-| This website (Vercel) | see the repo's deployment / Vercel project | Deployed from this repo |
+| This website (Vercel) | https://blue-peak-store-min955379-6910.vercel.app | Live and public; pages: `/` storefront, `/login.html`, `/signup.html`, `/admin.html` |
 | Shopify store | https://zvkeh6-0v.myshopify.com | Built (12 products, collections, Support / Sign Up / Log In pages). Storefront still shows the password page until a paid Shopify plan is activated by the owner |
-| WordPress site | https://bluepeak8.wordpress.com | Created on the WordPress.com Free plan; pages being completed |
+| WordPress site | https://bluepeak8.wordpress.com | Live on the WordPress.com Free plan: Home / Shop / Support pages published, footer carries the real WhatsApp contact |
 | Customer accounts (Shopify) | https://shopify.com/86289383644/account | New customer accounts (email + 6-digit code, no password) |
 
 Brand note: the correct brand name is **Blue Peak** (with a K). An early typo
@@ -49,6 +54,19 @@ still appear in a file name — the public brand name everywhere is Blue Peak.
   WhatsApp button; customers are asked to share their order details with their question.
 - **Design** — calm ivory-and-plum fashion look, serif display headings, mobile-first
   (most customers shop on phones), light and dark modes. No emojis; SVG icons only.
+- **Live catalogue** — on load, the storefront fetches the current products and
+  store settings from Supabase and renders those (the embedded catalogue is only
+  an offline fallback). Admin edits are therefore live without redeploying.
+- **Order recording** — every checkout is also inserted into Supabase `orders` /
+  `order_items`, so the owner sees all orders in the admin portal.
+- **Customer accounts** — `signup.html` / `login.html` (Supabase Auth, email +
+  password). Ordering never requires an account; accounts are for faster repeat
+  orders.
+- **Admin portal** — `admin.html`, owner-only (see "Accounts and the admin
+  portal" below): edit/add/delete products, change prices and stock, toggle
+  products on/off, review orders and update their status, and edit store
+  settings (WhatsApp number, announcement text, store name, tagline, support
+  name).
 
 ## Product catalogue (launch range)
 
@@ -77,25 +95,36 @@ product photography as it becomes available.
 
 ## How the code works
 
-The storefront is deliberately simple and dependency-free:
+The storefront is deliberately simple:
 
-- `index.html` — the entire store in one file: markup, CSS and JavaScript are
-  inlined, product data is embedded in the page, and the bag is kept in the
-  visitor's own browser (`localStorage`-style state). No build step, no server,
-  no framework — it can be hosted on any static host.
-- Product photos are loaded from the Shopify CDN URLs listed in
-  `supabase/schema.sql` (the same photos used on the Shopify products).
+- `index.html` — the store in one file: markup, CSS and JavaScript are inlined,
+  the bag is kept in the visitor's own browser, and an embedded copy of the
+  catalogue provides an instant first render and an offline fallback. On load it
+  fetches live products + settings from Supabase (via the supabase-js CDN client
+  and the public anon key) and re-renders. No build step, no framework — it can
+  be hosted on any static host.
+- `login.html`, `signup.html`, `admin.html` — standalone pages in the same
+  design, each talking directly to Supabase Auth / database with the anon key;
+  all permissions are enforced by the database's row-level security, never by
+  the page alone.
+- Product photos are loaded from the Shopify CDN URLs stored in the `products`
+  table (the same photos used on the Shopify products).
 - Checkout never takes payment online: it builds a WhatsApp deep link
-  (`https://wa.me/923485581969?text=…`) containing the full order.
+  (`https://wa.me/923485581969?text=…`) containing the full order, and records
+  the order in Supabase at the same moment.
 
 ## Repository layout
 
 ```
 .
-├── index.html            # The complete storefront (single-file build)
+├── index.html            # The storefront (live Supabase catalogue + WhatsApp checkout)
+├── login.html            # Customer log-in (Supabase Auth)
+├── signup.html           # Customer sign-up (Supabase Auth + profile)
+├── admin.html            # Owner-only admin portal (products, orders, settings)
 ├── README.md             # This file
 └── supabase/
-    └── schema.sql        # Products + orders schema, RLS policies, seed data
+    ├── schema.sql        # v1: products + orders, RLS policies, seed data
+    └── schema-v2.sql     # v2: profiles, site_admins allowlist, settings, admin RLS
 ```
 
 ## Run it locally
@@ -116,39 +145,70 @@ The same files also work unchanged on GitHub Pages, Netlify or any static host.
 
 ---
 
-## Supabase (database)
+## Supabase (database + accounts)
 
-The storefront currently runs fully client-side; Supabase is the store's database
-layer for the catalogue and for recording orders, ready to be wired into the page.
+The live project is **blue-peak-store** (ref `fulhqtlofohrsytqcbbt`, region
+ap-south-1 / Mumbai): https://fulhqtlofohrsytqcbbt.supabase.co — the storefront,
+login/sign-up and admin pages are all wired to it with the public **anon key**
+(the only key allowed in client code; never put the `service_role` key in this
+repo or in a web page).
 
-**Setup**
+**Schema**
 
-1. Create a Supabase project (Free plan is fine).
-2. Open the project's SQL editor and run `supabase/schema.sql`. It creates:
+1. `supabase/schema.sql` (v1) creates:
    - `products` — the catalogue (slug, name, category, fabric note, sale + was
-     prices in PKR, sizes array, stock per size, image URL, active flag),
+     prices in PKR, sizes array, stock, image URL, active flag),
      seeded with the same 12 products and prices as the table above.
-   - `orders` — customer name, phone, city, address, note, totals, status
-     (`new → confirmed → dispatched → delivered / cancelled`), channel.
+   - `orders` — customer name, phone, city, address, note, total, status
+     (`new → confirmed → shipped → delivered / cancelled`).
    - `order_items` — line items per order (product, size, qty, unit price).
-3. Row Level Security is enabled in the script:
-   - Anyone may **read** active products (public catalogue).
-   - Anyone may **insert** an order and its items (checkout) but may **not**
-     read, edit or delete orders — the owner manages orders from the Supabase
-     dashboard.
-4. To connect the storefront later, use the project's **anon (public) key** only.
-   Never put the `service_role` key in this repo or in client-side code.
+2. `supabase/schema-v2.sql` (run after v1) adds:
+   - `profiles` — one row per account (name, phone), readable/editable only by
+     its owner.
+   - `site_admins` — the admin email allowlist (see below).
+   - `settings` — key/value store settings (store name, tagline, WhatsApp
+     number + display format, support name, announcement bar text), publicly
+     readable, admin-writable.
+   - `public.is_admin()` — a security-definer function used by the RLS
+     policies: products/settings become fully editable and orders readable
+     only when the signed-in user's email is in `site_admins`.
+
+**Row Level Security summary**
+
+- Anyone may **read** active products and the settings (public store).
+- Anyone may **insert** an order and its items (checkout) but may **not** read
+  or edit orders.
+- Signed-in users manage only their own profile row.
+- Admins (allowlist) may read/update orders, write products and settings.
+
+**Auth configuration** (set on the live project): sign-ups enabled, email
+confirmation OFF (accounts work immediately), site URL = the Vercel address,
+redirect allow-list = the Vercel domain.
+
+## Accounts and the admin portal
+
+- **Customers** sign up on `signup.html` (name, phone, email, password) and log
+  in on `login.html`. An account is optional — checkout stays account-free.
+- **The owner** signs up with the owner email address; because that email is in
+  `site_admins`, the same login unlocks `admin.html`. Logging in as the owner
+  sends you straight to the portal.
+- **Changing the admin:** edit the `site_admins` table in the Supabase
+  dashboard (Table Editor) or SQL editor — no code change needed.
+- **In the portal** the owner can: add a product; edit any product's name,
+  category, fabric, prices, stock, photo URL and active flag; delete a product;
+  see the latest 50 orders with line items and set each order's status; and
+  edit the store settings. All changes are live on the store at next refresh.
 
 ## Roadmap / known items
 
 - Replace sample photos with real product photography (site + Shopify together).
-- Wire the checkout to also insert the order into Supabase `orders` / `order_items`
-  before opening WhatsApp, so every order is recorded in the dashboard.
 - Activate the Shopify plan (owner, in Shopify Admin) to remove its password page,
   publish the prepared "Horizon - Blue Peak" theme there, and rename that store
   from "My Store" to Blue Peak in Settings.
-- Finish and launch the WordPress site pages (Home / Shop / Support).
 - Optional: custom domain for the Vercel deployment.
+- Optional: connect the Vercel project to this GitHub repo for automatic
+  deploys on push (currently deployments are uploaded directly, because
+  Vercel's GitHub app is not authorised on the account yet).
 
 ## Support
 

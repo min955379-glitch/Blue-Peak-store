@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Admin Portal — Blue Peak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--bg:#faf6f0;--bg-soft:#f3ece2;--surface:#ffffff;--surface-2:#f7f1e8;--ink:#2b2130;--ink-soft:#5d5266;--ink-faint:#8a7d94;--accent:#6d214f;--accent-deep:#521838;--accent-soft:#f6e7ef;--line:#e7dccd;--danger:#b3372f;--green:#1f7a4d;--green-bg:#e6f4ec;--shadow:0 2px 10px rgba(82,24,56,.07),0 14px 34px rgba(82,24,56,.06);--radius:16px}
+  @media (prefers-color-scheme: dark){:root{--bg:#171219;--bg-soft:#1e1722;--surface:#241b29;--surface-2:#2b2133;--ink:#f2eaf3;--ink-soft:#c9bccf;--ink-faint:#9d8fa5;--accent:#e08bb9;--accent-deep:#f0a8cd;--accent-soft:#3a2133;--line:#3a2d40;--danger:#e08a84;--green:#5cc48c;--green-bg:#1e3328;--shadow:0 2px 10px rgba(0,0,0,.35),0 14px 34px rgba(0,0,0,.3)}}
+  *{box-sizing:border-box} body{margin:0;font-family:"Inter",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:"Playfair Display",Georgia,serif;margin:0}
+  a{color:var(--accent)}
+  .top{max-width:1100px;margin:0 auto;padding:22px 20px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .brand{font-family:"Playfair Display",Georgia,serif;font-size:26px;font-weight:700;color:var(--ink);text-decoration:none}
+  .brand span{color:var(--accent)}
+  .wrap{max-width:1100px;margin:22px auto 70px;padding:0 20px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px}
+  .narrow{max-width:440px;margin:0 auto}
+  label{display:block;font-weight:600;font-size:13px;margin:12px 0 5px;color:var(--ink-soft)}
+  input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);font-size:15px;color:var(--ink);font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .btn{display:inline-block;padding:11px 20px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none}
+  .btn.small{padding:8px 14px;font-size:14px}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  .btn.danger{background:var(--danger)}
+  .btn:disabled{opacity:.55;cursor:wait}
+  .msg{margin-top:12px;font-size:14px;min-height:20px}
+  .msg.err{color:var(--danger)} .msg.ok{color:var(--green)}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{padding:9px 18px;border-radius:999px;border:1px solid var(--line-strong,#d9cbb4);background:var(--surface);font-weight:600;cursor:pointer;color:var(--ink-soft)}
+  .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .prow{display:grid;grid-template-columns:64px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .prow img{width:64px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px 12px}
+  .prow .actions{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap}
+  .rowmsg{font-size:13px}
+  .check{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;margin-top:12px}
+  .check input{width:auto}
+  .order{border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;background:var(--surface-2)}
+  .order h3{font-size:17px}
+  .order .meta{color:var(--ink-soft);font-size:14px}
+  .order ul{margin:8px 0;padding-left:18px}
+  .order .foot{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .pill{display:inline-block;padding:2px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-deep);font-size:12px;font-weight:700}
+  .hidden{display:none!important}
+  .muted{color:var(--ink-soft)} .small{font-size:13px}
+</style>
+</head>
+<body>
+  <div class="top">
+    <a class="brand" href="index.html">Blue <span>Peak</span> &middot; Admin</a>
+    <div>
+      <a class="btn ghost small" href="index.html">View store</a>
+      <button class="btn ghost small hidden" id="signOutBtn" type="button">Sign out</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- Gate: login -->
+    <div class="card narrow" id="gateView">
+      <h1>Admin sign in</h1>
+      <p class="muted">This portal is only for the store owner. Sign in with the owner account (the email registered as admin) to manage products, orders and settings.</p>
+      <form id="gateForm" novalidate>
+        <label for="gEmail">Email</label>
+        <input id="gEmail" type="email" autocomplete="email" placeholder="owner email" />
+        <label for="gPass">Password</label>
+        <input id="gPass" type="password" autocomplete="current-password" placeholder="Your password" />
+        <button class="btn" id="gateBtn" type="submit" style="width:100%;margin-top:16px">Sign In to Admin</button>
+        <div class="msg" id="gateMsg" role="status"></div>
+      </form>
+      <p class="small muted">No owner account yet? <a href="signup.html">Sign up</a> with the owner email address first &mdash; that account automatically becomes the admin account.</p>
+    </div>
+
+    <!-- Denied -->
+    <div class="card narrow hidden" id="deniedView">
+      <h1>Not an admin account</h1>
+      <p class="muted" id="deniedText">You are signed in, but this email is not the registered store admin, so the portal stays locked.</p>
+      <button class="btn" id="deniedOutBtn" type="button">Sign out</button>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="hidden" id="dashView">
+      <div class="tabs">
+        <button class="tab active" data-tab="products" type="button">Products</button>
+        <button class="tab" data-tab="orders" type="button">Orders</button>
+        <button class="tab" data-tab="settings" type="button">Settings</button>
+      </div>
+
+      <section id="tab-products">
+        <div class="card">
+          <h2>Add a new product</h2>
+          <div class="pgrid">
+            <div><label>Name</label><input id="npName" placeholder="e.g. Rose Embroidered 3PC" /></div>
+            <div><label>Category</label>
+              <select id="npCat"><option>Co-ord Sets</option><option>3PC Stitched</option><option>2PC Stitched</option></select></div>
+            <div><label>Sale price (PKR)</label><input id="npPrice" type="number" min="0" placeholder="3495" /></div>
+            <div><label>Was price (PKR)</label><input id="npWas" type="number" min="0" placeholder="6990" /></div>
+            <div><label>Fabric / details</label><input id="npFabric" placeholder="e.g. Khaddar print, with dupatta" /></div>
+            <div><label>Image URL</label><input id="npImg" placeholder="https://…" /></div>
+            <div><label>Stock</label><input id="npStock" type="number" min="0" value="10" /></div>
+          </div>
+          <button class="btn" id="npAdd" type="button" style="margin-top:14px">Add Product</button>
+          <div class="msg" id="npMsg" role="status"></div>
+        </div>
+
+        <div class="card" style="margin-top:18px">
+          <h2>All products</h2>
+          <p class="muted small">Edit any field and press Save on that product. Untick &ldquo;Active&rdquo; to hide a product from the store without deleting it. Changes appear on the live store within a refresh.</p>
+          <div id="productList"><p class="muted">Loading products…</p></div>
+        </div>
+      </section>
+
+      <section id="tab-orders" class="hidden">
+        <div class="card">
+          <h2>Latest orders</h2>
+          <p class="muted small">Orders placed through the website checkout are recorded here (customers also confirm on WhatsApp). Update the status as you process each order.</p>
+          <div id="orderList"><p class="muted">Loading orders…</p></div>
+        </div>
+      </section>
+
+      <section id="tab-settings" class="hidden">
+        <div class="card">
+          <h2>Store settings</h2>
+          <div class="pgrid">
+            <div><label>Store name</label><input id="s_store_name" /></div>
+            <div><label>Tagline</label><input id="s_tagline" /></div>
+            <div><label>WhatsApp number (international, digits only)</label><input id="s_whatsapp_number" /></div>
+            <div><label>WhatsApp number (display)</label><input id="s_whatsapp_display" /></div>
+            <div><label>Support person</label><input id="s_support_name" /></div>
+          </div>
+          <label>Announcement bar text</label>
+          <input id="s_announcement" />
+          <button class="btn" id="settingsSave" type="button" style="margin-top:16px">Save Settings</button>
+          <div class="msg" id="settingsMsg" role="status"></div>
+          <p class="small muted" style="margin-top:14px">Tip: after changing the WhatsApp number, new orders and the support chat button use the new number automatically.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+var sb = window.supabase.createClient(
+  "https://fulhqtlofohrsytqcbbt.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bGhxdGxvZm9ocnN5dHFjYmJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5MDg4NjMsImV4cCI6MjEwNzQ4NDg2M30.mvvSvUtaipMEo3HAaMjtMWjEnHp8rH9fS8_uF78LXpU"
+);
+var CATS = ["Co-ord Sets", "3PC Stitched", "2PC Stitched"];
+var STATUSES = ["new", "confirmed", "shipped", "delivered", "cancelled"];
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
+function fmt(n){ return "PKR " + Number(n || 0).toLocaleString("en-PK"); }
+
+async function boot(){
+  var s = await sb.auth.getSession();
+  if (!s.data.session){ showGate(); return; }
+  var admin = await sb.rpc("is_admin");
+  if (admin.data === true){ showDash(); }
+  else {
+    $("gateView").classList.add("hidden");
+    $("deniedView").classList.remove("hidden");
+    $("signOutBtn").classList.remove("hidden");
+    $("deniedText").textContent = "You are signed in as " + (s.data.session.user.email || "a customer") + ", which is not the registered store admin email, so the portal stays locked.";
+  }
+}
+function showGate(){
+  $("gateView").classList.remove("hidden");
+  $("dashView").classList.add("hidden");
+  $("deniedView").classList.add("hidden");
+  $("signOutBtn").classList.add("hidden");
+}
+function showDash(){
+  $("gateView").classList.add("hidden");
+  $("deniedView").classList.add("hidden");
+  $("dashView").classList.remove("hidden");
+  $("signOutBtn").classList.remove("hidden");
+  loadProducts(); loadOrders(); loadSettings();
+}
+
+$("gateForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  var btn = $("gateBtn"); btn.disabled = true; btn.textContent = "Signing in…";
+  var res = await sb.auth.signInWithPassword({ email: $("gEmail").value.trim(), password: $("gPass").value });
+  btn.disabled = false; btn.textContent = "Sign In to Admin";
+  if (res.error){ $("gateMsg").textContent = "Sign-in failed: " + res.error.message; $("gateMsg").className = "msg err"; return; }
+  boot();
+});
+async function signOut(){ await sb.auth.signOut(); showGate(); }
+$("signOutBtn").addEventListener("click", signOut);
+$("deniedOutBtn").addEventListener("click", signOut);
+
+document.querySelectorAll(".tab").forEach(function(t){
+  t.addEventListener("click", function(){
+    document.querySelectorAll(".tab").forEach(function(x){ x.classList.remove("active"); });
+    t.classList.add("active");
+    ["products","orders","settings"].forEach(function(k){ $("tab-" + k).classList.toggle("hidden", k !== t.dataset.tab); });
+  });
+});
+
+/* ---------- Products ---------- */
+async function loadProducts(){
+  var res = await sb.from("products").select("*").order("created_at", { ascending: true });
+  var box = $("productList");
+  if (res.error){ box.innerHTML = "<p class='msg err'>Could not load products: " + esc(res.error.message) + "</p>"; return; }
+  if (!res.data.length){ box.innerHTML = "<p class='muted'>No products yet. Add the first one above.</p>"; return; }
+  box.innerHTML = "";
+  res.data.forEach(function(p){ box.appendChild(productRow(p)); });
+}
+function catOptions(sel){
+  return CATS.map(function(c){ return "<option" + (c === sel ? " selected" : "") + ">" + c + "</option>"; }).join("");
+}
+function productRow(p){
+  var div = document.createElement("div");
+  div.className = "prow";
+  div.innerHTML =
+    "<img src='" + esc(p.image_url || "") + "' alt='' onerror=\"this.style.visibility='hidden'\" />" +
+    "<div>" +
+      "<div class='pgrid'>" +
+        "<div><label>Name</label><input data-f='name' value='" + esc(p.name) + "' /></div>" +
+        "<div><label>Category</label><select data-f='category'>" + catOptions(p.category) + "</select></div>" +
+        "<div><label>Sale price (PKR)</label><input data-f='price_pkr' type='number' min='0' value='" + (p.price_pkr || 0) + "' /></div>" +
+        "<div><label>Was price (PKR)</label><input data-f='compare_at_pkr' type='number' min='0' value='" + (p.compare_at_pkr || 0) + "' /></div>" +
+        "<div><label>Fabric / details</label><input data-f='fabric' value='" + esc(p.fabric || "") + "' /></div>" +
+        "<div><label>Stock</label><input data-f='stock' type='number' min='0' value='" + (p.stock || 0) + "' /></div>" +
+      "</div>" +
+      "<label>Image URL</label><input data-f='image_url' value='" + esc(p.image_url || "") + "' />" +
+      "<label class='check'><input data-f='active' type='checkbox'" + (p.active ? " checked" : "") + " /> Active (visible in store)</label>" +
+      "<div class='actions'>" +
+        "<button class='btn small' type='button' data-act='save'>Save</button>" +
+        "<button class='btn small danger' type='button' data-act='del'>Delete</button>" +
+        "<span class='rowmsg muted'></span>" +
+      "</div>" +
+    "</div>";
+  var note = div.querySelector(".rowmsg");
+  div.querySelector("[data-act='save']").addEventListener("click", async function(){
+    var get = function(f){ return div.querySelector("[data-f='" + f + "']"); };
+    var patch = {
+      name: get("name").value.trim(),
+      category: get("category").value,
+      price_pkr: Number(get("price_pkr").value || 0),
+      compare_at_pkr: Number(get("compare_at_pkr").value || 0),
+      fabric: get("fabric").value.trim(),
+      stock: Number(get("stock").value || 0),
+      image_url: get("image_url").value.trim(),
+      active: get("active").checked,
+      updated_at: new Date().toISOString()
+    };
+    note.textContent = "Saving…";
+    var r = await sb.from("products").update(patch).eq("id", p.id);
+    note.textContent = r.error ? ("Error: " + r.error.message) : "Saved ✓";
+    note.style.color = r.error ? "var(--danger)" : "var(--green)";
+    div.querySelector("img").src = patch.image_url;
+  });
+  div.querySelector("[data-act='del']").addEventListener("click", async function(){
+    if (!confirm("Delete \"" + p.name + "\" permanently? To just hide it, untick Active and Save instead.")) return;
+    var r = await sb.from("products").delete().eq("id", p.id);
+    if (r.error){ note.textContent = "Error: " + r.error.message; note.style.color = "var(--danger)"; }
+    else { div.remove(); }
+  });
+  return div;
+}
+$("npAdd").addEventListener("click", async function(){
+  var name = $("npName").value.trim();
+  var msg = $("npMsg");
+  if (name.length < 3){ msg.textContent = "Give the product a name first."; msg.className = "msg err"; return; }
+  var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-" + Date.now().toString(36);
+  var row = {
+    slug: slug, name: name, category: $("npCat").value,
+    fabric: $("npFabric").value.trim(),
+    price_pkr: Number($("npPrice").value || 0),
+    compare_at_pkr: Number($("npWas").value || 0),
+    image_url: $("npImg").value.trim(),
+    stock: Number($("npStock").value || 0), active: true
+  };
+  var r = await sb.from("products").insert(row);
+  if (r.error){ msg.textContent = "Could not add: " + r.error.message; msg.className = "msg err"; return; }
+  msg.textContent = "Product added ✓ — it is live in the store now."; msg.className = "msg ok";
+  $("npName").value = ""; $("npFabric").value = ""; $("npPrice").value = ""; $("npWas").value = ""; $("npImg").value = "";
+  loadProducts();
+});
+
+/* ---------- Orders ---------- */
+async function loadOrders(){
+  var box = $("orderList");
+  var res = await sb.from("orders").select("*").order("created_at", { ascending: false }).limit(50);
+  if (res.error){ box.innerHTML = "<p class='msg err'>Could not load orders: " + esc(res.error.message) + "</p>"; return; }
+  if (!res.data.length){ box.innerHTML = "<p class='muted'>No orders recorded yet. New website checkouts will appear here.</p>"; return; }
+  var ids = res.data.map(function(o){ return o.id; });
+  var itemsRes = await sb.from("order_items").select("*").in("order_id", ids);
+  var byOrder = {};
+  (itemsRes.data || []).forEach(function(it){ (byOrder[it.order_id] = byOrder[it.order_id] || []).push(it); });
+  box.innerHTML = "";
+  res.data.forEach(function(o){
+    var div = document.createElement("div");
+    div.className = "order";
+    var when = new Date(o.created_at).toLocaleString("en-PK", { dateStyle: "medium", timeStyle: "short" });
+    var items = (byOrder[o.id] || []).map(function(it){
+      return "<li>" + esc(it.product_name) + " — Size " + esc(it.size || "-") + " × " + it.qty + " — " + fmt(it.unit_price_pkr * it.qty) + "</li>";
+    }).join("");
+    div.innerHTML =
+      "<h3>" + esc(o.customer_name) + " <span class='pill'>" + esc(o.status) + "</span></h3>" +
+      "<p class='meta'>" + when + " · " + esc(o.phone) + " · " + esc(o.city) + " · " + esc(o.address) + (o.note ? (" · Note: " + esc(o.note)) : "") + "</p>" +
+      "<ul>" + items + "</ul>" +
+      "<div class='foot'><strong>Total: " + fmt(o.total_pkr) + "</strong>" +
+      "<select style='width:auto'>" + STATUSES.map(function(s){ return "<option" + (s === o.status ? " selected" : "") + ">" + s + "</option>"; }).join("") + "</select>" +
+      "<span class='rowmsg muted small'></span></div>";
+    var sel = div.querySelector("select");
+    var note = div.querySelector(".rowmsg");
+    sel.addEventListener("change", async function(){
+      var r = await sb.from("orders").update({ status: sel.value }).eq("id", o.id);
+      note.textContent = r.error ? ("Error: " + r.error.message) : "Status updated ✓";
+      note.style.color = r.error ? "var(--danger)" : "var(--green)";
+      div.querySelector(".pill").textContent = sel.value;
+    });
+    box.appendChild(div);
+  });
+}
+
+/* ---------- Settings ---------- */
+var SETTING_KEYS = ["store_name", "tagline", "whatsapp_number", "whatsapp_display", "support_name", "announcement"];
+async function loadSettings(){
+  var res = await sb.from("settings").select("*");
+  if (res.error) return;
+  (res.data || []).forEach(function(r){ var el = $("s_" + r.key); if (el) el.value = r.value || ""; });
+}
+$("settingsSave").addEventListener("click", async function(){
+  var msg = $("settingsMsg");
+  msg.textContent = "Saving…"; msg.className = "msg";
+  for (var i = 0; i < SETTING_KEYS.length; i++){
+    var k = SETTING_KEYS[i];
+    var r = await sb.from("settings").upsert({ key: k, value: $("s_" + k).value.trim(), updated_at: new Date().toISOString() });
+    if (r.error){ msg.textContent = "Error saving " + k + ": " + r.error.message; msg.className = "msg err"; return; }
+  }
+  msg.textContent = "Settings saved ✓ — the store picks them up on the next refresh."; msg.className = "msg ok";
+});
+
+boot();
+</script>
+</body>
+</html>

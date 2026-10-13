@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Sign Up — Blue Peak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--bg:#faf6f0;--surface:#ffffff;--ink:#2b2130;--ink-soft:#5d5266;--ink-faint:#8a7d94;--accent:#6d214f;--accent-deep:#521838;--accent-soft:#f6e7ef;--line:#e7dccd;--danger:#b3372f;--green:#1f7a4d;--shadow:0 2px 10px rgba(82,24,56,.07),0 14px 34px rgba(82,24,56,.06);--radius:16px}
+  @media (prefers-color-scheme: dark){:root{--bg:#171219;--surface:#241b29;--ink:#f2eaf3;--ink-soft:#c9bccf;--ink-faint:#9d8fa5;--accent:#e08bb9;--accent-deep:#f0a8cd;--accent-soft:#3a2133;--line:#3a2d40;--danger:#e08a84;--green:#5cc48c;--shadow:0 2px 10px rgba(0,0,0,.35),0 14px 34px rgba(0,0,0,.3)}}
+  *{box-sizing:border-box} body{margin:0;font-family:"Inter",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  h1{font-family:"Playfair Display",Georgia,serif;margin:0}
+  .top{max-width:880px;margin:0 auto;padding:22px 20px 0;display:flex;justify-content:space-between;align-items:center}
+  .brand{font-family:"Playfair Display",Georgia,serif;font-size:26px;font-weight:700;color:var(--ink);text-decoration:none}
+  .brand span{color:var(--accent)} .top a.back{color:var(--accent);text-decoration:none;font-weight:600;font-size:15px}
+  .wrap{max-width:440px;margin:26px auto 60px;padding:0 20px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 26px}
+  .card p.sub{color:var(--ink-soft);margin:8px 0 6px}
+  label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
+  input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-size:16px;color:var(--ink)}
+  input:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .hint{font-size:13px;color:var(--ink-faint);margin-top:4px}
+  .btn{display:block;width:100%;margin-top:20px;padding:13px;border:none;border-radius:10px;background:var(--accent);color:#fff;font-size:16px;font-weight:600;cursor:pointer}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .msg{margin-top:14px;font-size:14px;min-height:20px}
+  .msg.err{color:var(--danger)} .msg.ok{color:var(--green)}
+  .alt{margin-top:18px;text-align:center;color:var(--ink-soft);font-size:15px}
+  .note{margin-top:22px;background:var(--accent-soft);border-radius:12px;padding:14px 16px;font-size:14px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+  <div class="top">
+    <a class="brand" href="index.html">Blue <span>Peak</span></a>
+    <a class="back" href="index.html">&larr; Back to store</a>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <h1>Create your account</h1>
+      <p class="sub">Sign up once and your details are saved for faster repeat orders at Blue Peak.</p>
+      <form id="signupForm" novalidate>
+        <label for="name">Full name</label>
+        <input id="name" type="text" autocomplete="name" placeholder="Your full name" required />
+        <label for="phone">Phone / WhatsApp number</label>
+        <input id="phone" type="tel" autocomplete="tel" placeholder="03XX XXXXXXX" required />
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="new-password" placeholder="Choose a password" required />
+        <p class="hint">At least 6 characters. Use a password you do not use for your email or bank.</p>
+        <button class="btn" id="submitBtn" type="submit">Create Account</button>
+        <div class="msg" id="msg" role="status"></div>
+      </form>
+      <p class="alt">Already have an account? <a href="login.html">Log in</a></p>
+      <div class="note">Store owner: if you sign up with the owner email address, this same account also unlocks the <a href="admin.html">admin portal</a> where the whole store is managed.</div>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+var sb = window.supabase.createClient(
+  "https://fulhqtlofohrsytqcbbt.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bGhxdGxvZm9ocnN5dHFjYmJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5MDg4NjMsImV4cCI6MjEwNzQ4NDg2M30.mvvSvUtaipMEo3HAaMjtMWjEnHp8rH9fS8_uF78LXpU"
+);
+var msg = document.getElementById("msg");
+function show(text, ok){ msg.textContent = text; msg.className = "msg " + (ok ? "ok" : "err"); }
+document.getElementById("signupForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  var btn = document.getElementById("submitBtn");
+  var name = document.getElementById("name").value.trim();
+  var phone = document.getElementById("phone").value.trim();
+  var email = document.getElementById("email").value.trim();
+  var password = document.getElementById("password").value;
+  if (name.length < 3){ show("Please enter your full name."); return; }
+  if (phone.replace(/\D/g, "").length < 10){ show("Please enter a valid phone number."); return; }
+  if (!email || email.indexOf("@") < 1){ show("Please enter a valid email address."); return; }
+  if (password.length < 6){ show("Password must be at least 6 characters."); return; }
+  btn.disabled = true; btn.textContent = "Creating account…";
+  var res = await sb.auth.signUp({ email: email, password: password, options: { data: { full_name: name, phone: phone } } });
+  if (res.error){
+    btn.disabled = false; btn.textContent = "Create Account";
+    show("Sign-up failed: " + res.error.message);
+    return;
+  }
+  var user = res.data.user;
+  if (user && res.data.session){
+    await sb.from("profiles").insert({ id: user.id, full_name: name, phone: phone });
+    var admin = await sb.rpc("is_admin");
+    show("Account created — welcome to Blue Peak! Taking you onwards…", true);
+    setTimeout(function(){ window.location.href = (admin.data === true) ? "admin.html" : "index.html"; }, 700);
+  } else if (user){
+    show("Account created. Please check your email to confirm it, then log in.", true);
+    setTimeout(function(){ window.location.href = "login.html"; }, 1200);
+  } else {
+    show("Something went wrong. Please try again.", false);
+    btn.disabled = false; btn.textContent = "Create Account";
+  }
+});
+</script>
+</body>
+</html>
