@@ -202,6 +202,12 @@ redirect allow-list = the Vercel domain.
   category, fabric, prices, stock, photo URL and active flag; delete a product;
   see the latest 50 orders with line items and set each order's status; and
   edit the store settings. All changes are live on the store at next refresh.
+- The portal and storefront use the database's real column names
+  (`was_price_pkr`, `fabric_note`, `stock_per_size`) and the schema's order
+  status wording (`new → confirmed → dispatched → delivered / cancelled`).
+  Verified 13 Oct 2026 with a throwaway customer account: `is_admin` returned
+  false, product edits and order reads were blocked by RLS (test user deleted
+  afterwards).
 
 ## Roadmap / known items
 
