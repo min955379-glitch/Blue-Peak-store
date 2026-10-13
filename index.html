@@ -466,9 +466,9 @@
       <button class="icon-btn" id="searchBtn" aria-label="Search products">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
       </button>
-      <button class="icon-btn" id="accountBtn" aria-label="How ordering and accounts work">
+      <a class="icon-btn" href="login.html" aria-label="Log in or create an account" style="display:inline-flex">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
-      </button>
+      </a>
       <button class="icon-btn" id="cartBtn" aria-label="Open shopping bag">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h15l-1.5 9h-12z"/><path d="M6 7L5 3H2"/><circle cx="9" cy="20" r="1.6"/><circle cx="17" cy="20" r="1.6"/></svg>
         <span class="cart-count" id="cartCount" hidden>0</span>
@@ -600,6 +600,9 @@
         <ul>
           <li><a href="#support">Support &amp; Contact</a></li>
           <li><a href="#account">How Ordering Works</a></li>
+          <li><a href="login.html">Log In</a></li>
+          <li><a href="signup.html">Sign Up</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
           <li><a href="https://wa.me/923485581969" target="_blank" rel="noopener">WhatsApp: 0348 5581969</a></li>
         </ul>
       </div>
@@ -695,6 +698,7 @@
 
 <div class="toast" id="toast" role="status"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
 var WA_NUMBER = "923485581969";
@@ -1016,6 +1020,62 @@ function submitOrder(e){
   byId("checkoutFormView").hidden = true;
   byId("confirmView").hidden = false;
   window.open(url, "_blank");
+  recordOrder(name, phone, city, address, note, t);
+}
+
+
+/* ---------- Supabase live data: products, settings, order recording ---------- */
+var SB = null;
+try { SB = window.supabase.createClient("https://fulhqtlofohrsytqcbbt.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bGhxdGxvZm9ocnN5dHFjYmJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5MDg4NjMsImV4cCI6MjEwNzQ4NDg2M30.mvvSvUtaipMEo3HAaMjtMWjEnHp8rH9fS8_uF78LXpU"); } catch (e) { SB = null; }
+
+function recordOrder(name, phone, city, address, note, totals){
+  if (!SB) return;
+  try {
+    var oid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : null;
+    if (!oid) return;
+    var order = { id: oid, customer_name: name, phone: phone, city: city, address: address,
+      note: note || null, total_pkr: totals.sub, status: "new" };
+    SB.from("orders").insert(order).then(function(res){
+      if (res.error) return;
+      var items = state.cart.map(function(it){
+        var p = productById(it.id);
+        return { order_id: oid, product_id: p.dbid || null, product_name: p.name,
+          size: it.size, qty: it.qty, unit_price_pkr: p.price };
+      });
+      if (items.length) SB.from("order_items").insert(items);
+    });
+  } catch (e) { /* recording is best-effort; WhatsApp order already placed */ }
+}
+
+function loadLiveCatalogue(){
+  if (!SB) return;
+  SB.from("settings").select("*").then(function(res){
+    if (res.error || !res.data) return;
+    var s = {};
+    res.data.forEach(function(r){ s[r.key] = r.value; });
+    if (s.whatsapp_number){
+      WA_NUMBER = s.whatsapp_number;
+      document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){
+        a.href = a.href.replace(/wa\.me\/\d+/, "wa.me/" + WA_NUMBER);
+      });
+    }
+    if (s.announcement){
+      var an = document.querySelector(".announce");
+      if (an) an.textContent = s.announcement;
+    }
+  });
+  SB.from("products").select("*").eq("active", true).order("created_at", { ascending: true }).then(function(res){
+    if (res.error || !res.data || !res.data.length) return;
+    if (state.cart.length) return; /* never swap products mid-order */
+    PRODUCTS = res.data.map(function(r, i){
+      return { id: i + 1, dbid: r.id, name: r.name, cat: r.category, price: r.price_pkr,
+        was: r.compare_at_pkr || r.price_pkr, fabric: r.fabric || "",
+        img: r.image_url || "", alt: r.name };
+    });
+    state.picks = {};
+    PRODUCTS.forEach(function(p){ state.picks[p.id] = { size: null, qty: 1 }; });
+    renderGrid();
+  });
 }
 
 /* ---------- Wiring ---------- */
@@ -1023,15 +1083,13 @@ document.addEventListener("DOMContentLoaded", function(){
   buildNav();
   renderGrid();
   updateCartUI();
+  loadLiveCatalogue();
 
   byId("menuBtn").addEventListener("click", function(){ byId("mobileNav").classList.toggle("open"); });
   byId("searchBtn").addEventListener("click", function(){
     var row = byId("searchRow");
     row.classList.toggle("open");
     if (row.classList.contains("open")) byId("topSearch").focus();
-  });
-  byId("accountBtn").addEventListener("click", function(){
-    document.getElementById("account").scrollIntoView({behavior:"smooth"});
   });
   byId("brandHome").addEventListener("click", function(e){ e.preventDefault(); window.scrollTo({top:0, behavior:"smooth"}); });
   document.querySelectorAll("[data-shopnow]").forEach(function(b){
