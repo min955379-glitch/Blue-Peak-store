@@ -103,7 +103,7 @@
             <div><label>Was price (PKR)</label><input id="npWas" type="number" min="0" placeholder="6990" /></div>
             <div><label>Fabric / details</label><input id="npFabric" placeholder="e.g. Khaddar print, with dupatta" /></div>
             <div><label>Image URL</label><input id="npImg" placeholder="https://…" /></div>
-            <div><label>Stock</label><input id="npStock" type="number" min="0" value="10" /></div>
+            <div><label>Stock (per size)</label><input id="npStock" type="number" min="0" value="10" /></div>
           </div>
           <button class="btn" id="npAdd" type="button" style="margin-top:14px">Add Product</button>
           <div class="msg" id="npMsg" role="status"></div>
@@ -152,7 +152,7 @@ var sb = window.supabase.createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1bGhxdGxvZm9ocnN5dHFjYmJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5MDg4NjMsImV4cCI6MjEwNzQ4NDg2M30.mvvSvUtaipMEo3HAaMjtMWjEnHp8rH9fS8_uF78LXpU"
 );
 var CATS = ["Co-ord Sets", "3PC Stitched", "2PC Stitched"];
-var STATUSES = ["new", "confirmed", "shipped", "delivered", "cancelled"];
+var STATUSES = ["new", "confirmed", "dispatched", "delivered", "cancelled"];
 function $(id){ return document.getElementById(id); }
 function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
 function fmt(n){ return "PKR " + Number(n || 0).toLocaleString("en-PK"); }
@@ -225,9 +225,9 @@ function productRow(p){
         "<div><label>Name</label><input data-f='name' value='" + esc(p.name) + "' /></div>" +
         "<div><label>Category</label><select data-f='category'>" + catOptions(p.category) + "</select></div>" +
         "<div><label>Sale price (PKR)</label><input data-f='price_pkr' type='number' min='0' value='" + (p.price_pkr || 0) + "' /></div>" +
-        "<div><label>Was price (PKR)</label><input data-f='compare_at_pkr' type='number' min='0' value='" + (p.compare_at_pkr || 0) + "' /></div>" +
-        "<div><label>Fabric / details</label><input data-f='fabric' value='" + esc(p.fabric || "") + "' /></div>" +
-        "<div><label>Stock</label><input data-f='stock' type='number' min='0' value='" + (p.stock || 0) + "' /></div>" +
+        "<div><label>Was price (PKR)</label><input data-f='was_price_pkr' type='number' min='0' value='" + (p.was_price_pkr || 0) + "' /></div>" +
+        "<div><label>Fabric / details</label><input data-f='fabric_note' value='" + esc(p.fabric_note || "") + "' /></div>" +
+        "<div><label>Stock (per size)</label><input data-f='stock_per_size' type='number' min='0' value='" + (p.stock_per_size || 0) + "' /></div>" +
       "</div>" +
       "<label>Image URL</label><input data-f='image_url' value='" + esc(p.image_url || "") + "' />" +
       "<label class='check'><input data-f='active' type='checkbox'" + (p.active ? " checked" : "") + " /> Active (visible in store)</label>" +
@@ -244,9 +244,9 @@ function productRow(p){
       name: get("name").value.trim(),
       category: get("category").value,
       price_pkr: Number(get("price_pkr").value || 0),
-      compare_at_pkr: Number(get("compare_at_pkr").value || 0),
-      fabric: get("fabric").value.trim(),
-      stock: Number(get("stock").value || 0),
+      was_price_pkr: Number(get("was_price_pkr").value || 0),
+      fabric_note: get("fabric_note").value.trim(),
+      stock_per_size: Number(get("stock_per_size").value || 0),
       image_url: get("image_url").value.trim(),
       active: get("active").checked,
       updated_at: new Date().toISOString()
@@ -272,11 +272,11 @@ $("npAdd").addEventListener("click", async function(){
   var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-" + Date.now().toString(36);
   var row = {
     slug: slug, name: name, category: $("npCat").value,
-    fabric: $("npFabric").value.trim(),
+    fabric_note: $("npFabric").value.trim(),
     price_pkr: Number($("npPrice").value || 0),
-    compare_at_pkr: Number($("npWas").value || 0),
+    was_price_pkr: Number($("npWas").value || 0),
     image_url: $("npImg").value.trim(),
-    stock: Number($("npStock").value || 0), active: true
+    stock_per_size: Number($("npStock").value || 0), active: true
   };
   var r = await sb.from("products").insert(row);
   if (r.error){ msg.textContent = "Could not add: " + r.error.message; msg.className = "msg err"; return; }

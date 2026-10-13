@@ -1068,7 +1068,7 @@ function loadLiveCatalogue(){
     if (state.cart.length) return; /* never swap products mid-order */
     PRODUCTS = res.data.map(function(r, i){
       return { id: i + 1, dbid: r.id, name: r.name, cat: r.category, price: r.price_pkr,
-        was: r.compare_at_pkr || r.price_pkr, fabric: r.fabric || "",
+        was: r.was_price_pkr || r.price_pkr, fabric: r.fabric_note || "",
         img: r.image_url || "", alt: r.name };
     });
     state.picks = {};
