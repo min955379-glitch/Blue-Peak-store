@@ -222,7 +222,7 @@
   }
   @media (max-width:1020px){ .grid{grid-template-columns:repeat(3,1fr);} }
   @media (max-width:720px){ .grid{grid-template-columns:repeat(2,1fr);gap:16px;} }
-  @media (max-width:380px){ .grid{grid-template-columns:1fr;} }
+  @media (max-width:340px){ .grid{grid-template-columns:1fr;} }
   .card{
     background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
     overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;
@@ -271,6 +271,29 @@
   .add-btn:hover{background:var(--accent-deep);}
   @media (prefers-color-scheme: dark){ .add-btn{color:#241019;} }
   .add-btn svg{width:18px;height:18px;}
+  /* ---------- Mobile product cards (phones) ---------- */
+  @media (max-width:720px){
+    .grid{gap:14px;padding:22px 0 48px;}
+    .card{min-width:0;}
+    .card-body{padding:12px 12px 14px;gap:6px;}
+    .card h3{font-size:15px;line-height:1.3;}
+    .fabric{font-size:12.5px;}
+    .price-row{gap:7px;}
+    .price{font-size:16px;}
+    .was{font-size:13px;}
+    .save-tag{font-size:11px;padding:2px 6px;}
+    .size-label{margin-top:6px;font-size:11.5px;}
+    .sizes{gap:5px;}
+    .size-btn{min-width:34px;padding:6px 4px;font-size:12.5px;border-radius:8px;}
+    .buy-row{flex-direction:column;gap:8px;padding-top:8px;}
+    .qty{align-self:flex-start;}
+    .qty button{width:30px;height:38px;font-size:16px;}
+    .qty span{min-width:24px;font-size:14px;}
+    .add-btn{width:100%;padding:11px 8px;font-size:14px;white-space:nowrap;}
+    .add-btn svg{width:16px;height:16px;flex:none;}
+    .badge-off{top:8px;left:8px;font-size:11.5px;padding:4px 8px;}
+    .badge-cat{bottom:8px;left:8px;font-size:11px;padding:3px 8px;}
+  }
   .empty-state{
     grid-column:1/-1;text-align:center;padding:56px 20px;color:var(--ink-soft);
     background:var(--surface);border:1px dashed var(--line-strong);border-radius:var(--radius);

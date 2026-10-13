@@ -54,6 +54,9 @@ still appear in a file name — the public brand name everywhere is Blue Peak.
   WhatsApp button; customers are asked to share their order details with their question.
 - **Design** — calm ivory-and-plum fashion look, serif display headings, mobile-first
   (most customers shop on phones), light and dark modes. No emojis; SVG icons only.
+  The phone layout (screens up to 720px) uses a dedicated card layout: compact
+  product cards, three size buttons per row, the quantity stepper stacked above
+  a full-width "Add to Bag" button, so nothing is clipped or overflowing.
 - **Live catalogue** — on load, the storefront fetches the current products and
   store settings from Supabase and renders those (the embedded catalogue is only
   an offline fallback). Admin edits are therefore live without redeploying.
