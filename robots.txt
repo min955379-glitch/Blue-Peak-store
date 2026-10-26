@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+Disallow: /admin.html
+
+Sitemap: https://blue-peak-store.vercel.app/sitemap.xml
