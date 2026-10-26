@@ -28,6 +28,8 @@ so the repository always matches the live site.
 | WordPress site | https://bluepeak8.wordpress.com | Live on the WordPress.com Free plan: Home / Shop / Support pages published, footer carries the real WhatsApp contact |
 | Customer accounts (Shopify) | https://shopify.com/86289383644/account | New customer accounts (email + 6-digit code, no password) |
 
+**SEO / Google Search Console (added 22 Oct 2026):** the Vercel site is added to Google Search Console (account min955379@gmail.com) as the URL-prefix property https://blue-peak-store.vercel.app/ — ownership is verified with a `google-site-verification` meta tag in `index.html`, and the site ships `robots.txt` (admin page disallowed) and `sitemap.xml` for indexing.
+
 Brand note: the correct brand name is **Blue Peak** (with a K). An early typo
 ("Blue Seak") was corrected by the owner on 13 Oct 2026 and renamed across the
 website, Shopify and WordPress. A legacy internal slug (`blue-seak-store`) may
